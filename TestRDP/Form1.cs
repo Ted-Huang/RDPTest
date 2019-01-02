@@ -1,4 +1,5 @@
 ﻿using MSTSCLib;
+using RDPCOMAPILib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,43 +54,32 @@ namespace WindowsFormsApplication1
         {
             try
             {
-                axMsRdpClient7NotSafeForScripting1.Server = txtIP.Text;
-                axMsRdpClient7NotSafeForScripting1.FullScreen = true;
-                axMsRdpClient7NotSafeForScripting1.UserName = txtUserName.Text;
-                IMsTscNonScriptable secured = (IMsTscNonScriptable)axMsRdpClient7NotSafeForScripting1.GetOcx();
+                RDPSession _rdpSession = new RDPSession();  // 新建RDP Session
 
-                secured.ClearTextPassword = txtPwd.Text;
+                //_rdpSession.SetDesktopSharedRect(0, 0, 1920, 1080);// 設定共享區域，如果不設定預設為整個螢幕，當然如果有多個螢幕，還是設定下主螢幕，否則，區域會很大
 
-                //axMsRdpClient7NotSafeForScripting1.DesktopHeight = 800;
-                //axMsRdpClient7NotSafeForScripting1.DesktopWidth = 600;
-
-                //axMsRdpClient7NotSafeForScripting1.Width = 800;
-                //axMsRdpClient7NotSafeForScripting1.Height = 600;
-                axMsRdpClient7NotSafeForScripting1.Width = Screen.PrimaryScreen.Bounds.Width;
-                axMsRdpClient7NotSafeForScripting1.Height = Screen.PrimaryScreen.Bounds.Height;
-
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings5.AuthenticationLevel = 2;
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings7.EnableCredSspSupport = true;
-
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings2.RedirectDrives = false;
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings2.RedirectPrinters = false;
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings2.RedirectPrinters = false;
-                //axMsRdpClient7NotSafeForScripting1.AdvancedSettings2.RedirectClipboard = true;
-                axMsRdpClient7NotSafeForScripting1.AdvancedSettings2.RedirectSmartCards = false;
-
-                axMsRdpClient7NotSafeForScripting1.SecuredSettings2.KeyboardHookMode = 1;
-
-                axMsRdpClient7NotSafeForScripting1.FullScreenTitle = "test";
-                if (axMsRdpClient7NotSafeForScripting1.SecuredSettingsEnabled == 0)
-                    axMsRdpClient7NotSafeForScripting1.SecuredSettings.StartProgram = "notepad.exe";
-
-
-                axMsRdpClient7NotSafeForScripting1.Connect();
+                _rdpSession.Open(); // 開啟會話
+                
+                IRDPSRAPIInvitation invitation = _rdpSession.Invitations.CreateInvitation("baseAuth", "groupName", "", 64);  // 建立申請
+                txtConnectString.Text = invitation.ConnectionString;
+                _rdpSession.OnAttendeeConnected += new _IRDPSessionEvents_OnAttendeeConnectedEventHandler(OnAttendeeConnected);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format("error {0}", ex.ToString()));
             }
+        }
+
+
+        private void OnAttendeeConnected(object pObjAttendee)
+        {
+
+            IRDPSRAPIAttendee pAttendee = pObjAttendee as IRDPSRAPIAttendee;
+
+            pAttendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_INTERACTIVE;
+
+            //LogTextBox.Text += ("Attendee Connected: " + pAttendee.RemoteName + Environment.NewLine);
+
         }
 
         private void btnDetect_Click(object sender, EventArgs e)

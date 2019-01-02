@@ -37,13 +37,14 @@
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtConnectString = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.axMsRdpClient7NotSafeForScripting1)).BeginInit();
             this.SuspendLayout();
             // 
             // axMsRdpClient7NotSafeForScripting1
             // 
             this.axMsRdpClient7NotSafeForScripting1.Enabled = true;
-            this.axMsRdpClient7NotSafeForScripting1.Location = new System.Drawing.Point(24, 57);
+            this.axMsRdpClient7NotSafeForScripting1.Location = new System.Drawing.Point(24, 120);
             this.axMsRdpClient7NotSafeForScripting1.Name = "axMsRdpClient7NotSafeForScripting1";
             this.axMsRdpClient7NotSafeForScripting1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMsRdpClient7NotSafeForScripting1.OcxState")));
             this.axMsRdpClient7NotSafeForScripting1.Size = new System.Drawing.Size(1217, 639);
@@ -111,11 +112,20 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Pwd";
             // 
+            // txtConnectString
+            // 
+            this.txtConnectString.Location = new System.Drawing.Point(24, 76);
+            this.txtConnectString.Name = "txtConnectString";
+            this.txtConnectString.Size = new System.Drawing.Size(1217, 22);
+            this.txtConnectString.TabIndex = 9;
+            this.txtConnectString.Text = "ConnectString";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1268, 771);
+            this.Controls.Add(this.txtConnectString);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPwd);
@@ -143,6 +153,7 @@
         private System.Windows.Forms.TextBox txtPwd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtConnectString;
     }
 }
 
