@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MSTSCLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -54,6 +55,11 @@ namespace WindowsFormsApplication1
             {
                 axMsRdpClient7NotSafeForScripting1.Server = txtIP.Text;
                 axMsRdpClient7NotSafeForScripting1.FullScreen = true;
+                axMsRdpClient7NotSafeForScripting1.UserName = txtUserName.Text;
+                IMsTscNonScriptable secured = (IMsTscNonScriptable)axMsRdpClient7NotSafeForScripting1.GetOcx();
+
+                secured.ClearTextPassword = txtPwd.Text;
+
                 //axMsRdpClient7NotSafeForScripting1.DesktopHeight = 800;
                 //axMsRdpClient7NotSafeForScripting1.DesktopWidth = 600;
 
