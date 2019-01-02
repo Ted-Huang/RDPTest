@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ViewRDP
@@ -27,6 +26,9 @@ namespace ViewRDP
             try
             {
                 axRDPViewer1.Connect(txtConnectString.Text, "groupName", "");
+                this.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                axRDPViewer1.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
             }
             catch(Exception ex)
             {
