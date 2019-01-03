@@ -30,10 +30,37 @@ void CMFCSessionDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CMFCSessionDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(ITEM_BTNCREATE, OnCreateSession)
 END_MESSAGE_MAP()
 
 
 // CMFCSessionDlg 訊息處理常式
+void CMFCSessionDlg::Init()
+{
+	
+	m_pBtnCreateSession = new CButton;
+	m_pBtnCreateSession->Create(_T("CreateSession"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 120, 20), this, ITEM_BTNCREATE);
+	m_pEdConnectString = new CEdit;
+	m_pEdConnectString->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
+	::CoInitialize(NULL);
+	COleException oExcep;
+	CLSID clsID;
+
+	HRESULT hr = ::CLSIDFromString(L"{9B78F0E6-3E05-4A5B-B2E8-E743A8956B65}", &clsID);
+	if (FAILED(hr)) {
+		return;
+	}	
+	m_pSession = new CRDPSRAPISharingSession();
+	BOOL bRtn = m_pSession->CreateDispatch(clsID, &oExcep);
+
+	hr = ::CLSIDFromString(L"{53d9c9db-75ab-4271-948a-4c4eb36a8f2b}", &clsID);
+	if (FAILED(hr)) {
+		return;
+	}
+
+	m_pInvitationMgr = new CRDPSRAPIInvitationManager;
+	bRtn = m_pInvitationMgr->CreateDispatch(clsID, &oExcep);
+}
 
 BOOL CMFCSessionDlg::OnInitDialog()
 {
@@ -45,8 +72,19 @@ BOOL CMFCSessionDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO:  在此加入額外的初始設定
-
+	Init(); 
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
+}
+
+void CMFCSessionDlg::OnCreateSession()
+{
+	
+	m_pSession->Open();
+
+
+	CRDPSRAPIInvitation* pInvitation = (CRDPSRAPIInvitation*)m_pInvitationMgr->CreateInvitation(L"baseAuth", L"groupName", L"", 64);
+	CString str = pInvitation->get_ConnectionString();
+	TRACE(L"%s \n ", str);;
 }
 
 // 如果將最小化按鈕加入您的對話方塊，您需要下列的程式碼，

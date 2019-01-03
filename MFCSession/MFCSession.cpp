@@ -51,7 +51,6 @@ BOOL CMFCSessionApp::InitInstance()
 
 	CWinApp::InitInstance();
 
-
 	AfxEnableControlContainer();
 
 	// 建立殼層管理員，以防對話方塊包含

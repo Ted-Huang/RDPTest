@@ -36,6 +36,12 @@
     <ClInclude Include="CRDPSRAPISharingSession.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="CRDPSRAPIInvitation.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="CRDPSRAPIInvitationManager.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCSession.cpp">

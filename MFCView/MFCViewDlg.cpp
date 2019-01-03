@@ -34,7 +34,7 @@ void CMFCViewDlg::Init()
 	CRect rcWnd;
 	GetClientRect(rcWnd);
 	m_pBtnCreate = new CButton;
-	m_pBtnCreate->Create(_T("CreateSession"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 120, 20), this, ITEM_BTNCONNECT);
+	m_pBtnCreate->Create(_T("Connect"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 120, 20), this, ITEM_BTNCONNECT);
 	m_pEdSession = new CEdit;
 	m_pEdSession->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
 	m_pViewer = new CRDPSRAPIViewer;
