@@ -1,5 +1,4 @@
-﻿using MSTSCLib;
-using RDPCOMAPILib;
+﻿using RDPCOMAPILib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,31 +21,6 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             
-        }
-
-        bool HasServerFeatureById(UInt32 roleId)
-        {
-            try
-            {
-                ManagementClass serviceClass = new ManagementClass("Win32_ServerFeature");
-                foreach (ManagementObject feature in serviceClass.GetInstances())
-                {
-                    if ((UInt32)feature["ID"] == roleId)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            catch (ManagementException ex)
-            {
-                // The most likely cause of this is that this is being called from an 
-                // operating system that is not a server operating system.
-                MessageBox.Show(string.Format("error {0}", ex.ToString()));
-            }
-
-            return false;
         }
 
         private void OpenRDC()
@@ -76,18 +50,6 @@ namespace WindowsFormsApplication1
             IRDPSRAPIAttendee pAttendee = pObjAttendee as IRDPSRAPIAttendee;
 
             pAttendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_INTERACTIVE;
-
-            //LogTextBox.Text += ("Attendee Connected: " + pAttendee.RemoteName + Environment.NewLine);
-
-        }
-
-        private void btnDetect_Click(object sender, EventArgs e)
-        {
-            // 14 is the identifier of the Remote Desktop Services role.
-            if (HasServerFeatureById(14))
-                MessageBox.Show("true");
-            else
-                MessageBox.Show("false");
         }
 
         private void btnOpenRDC_Click(object sender, EventArgs e)
