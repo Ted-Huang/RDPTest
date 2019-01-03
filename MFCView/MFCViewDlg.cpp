@@ -7,6 +7,8 @@
 #include "MFCViewDlg.h"
 #include "afxdialogex.h"
 
+//CRDPSRAPIViewer  來自C:\Windows\System32\rdpencom.dll
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -27,9 +29,22 @@ void CMFCViewDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
+void CMFCViewDlg::Init()
+{
+	CRect rcWnd;
+	GetClientRect(rcWnd);
+	m_pBtnCreate = new CButton;
+	m_pBtnCreate->Create(_T("CreateSession"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 120, 20), this, ITEM_BTNCONNECT);
+	m_pEdSession = new CEdit;
+	m_pEdSession->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
+	m_pViewer = new CRDPSRAPIViewer;
+	m_pViewer->Create(_T("View"), WS_CHILD | WS_VISIBLE, CRect(0, 50, 1700, 900), this, ITEM_VIEW);
+}
+
 BEGIN_MESSAGE_MAP(CMFCViewDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(ITEM_BTNCONNECT, OnConnect)
 END_MESSAGE_MAP()
 
 
@@ -45,10 +60,17 @@ BOOL CMFCViewDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO:  在此加入額外的初始設定
-
+	Init();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }
 
+void CMFCViewDlg::OnConnect()
+{
+	CString strSession;
+	m_pEdSession->GetWindowText(strSession);
+
+	m_pViewer->Connect(strSession, L"groupName", L"");
+}
 // 如果將最小化按鈕加入您的對話方塊，您需要下列的程式碼，
 // 以便繪製圖示。對於使用文件/檢視模式的 MFC 應用程式，
 // 框架會自動完成此作業。
