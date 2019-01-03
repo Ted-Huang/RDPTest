@@ -101,6 +101,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CIRDPSessionEvents.h" />
+    <ClInclude Include="CRDPSRAPIAttendee.h" />
     <ClInclude Include="CRDPSRAPIInvitation.h" />
     <ClInclude Include="CRDPSRAPIInvitationManager.h" />
     <ClInclude Include="CRDPSRAPISharingSession.h" />

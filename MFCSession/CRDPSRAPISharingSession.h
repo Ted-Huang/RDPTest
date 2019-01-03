@@ -91,7 +91,12 @@ public:
 		static BYTE parms[] = VTS_PI4 VTS_PI4 VTS_PI4 VTS_PI4;
 		InvokeHelper(0x67, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pleft, ptop, pright, pbottom);
 	}
-
+	void OnAttendeeConnected(LPDISPATCH pAttendee)
+	{
+		static BYTE parms[] = VTS_DISPATCH;
+		InvokeHelper(0x12d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pAttendee);
+		TRACE(L"uiouoi \n");
+	}
 	// IRDPSRAPISharingSession ÄÝ©Ê
 public:
 

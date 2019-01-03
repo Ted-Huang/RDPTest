@@ -6,6 +6,8 @@
 #include "CRDPSRAPISharingSession.h"
 #include "CRDPSRAPIInvitation.h"
 #include "CRDPSRAPIInvitationManager.h"
+#include "CIRDPSessionEvents.h"
+#include "CRDPSRAPIAttendee.h"
 // CMFCSessionDlg 對話方塊
 class CMFCSessionDlg : public CDialogEx
 {
@@ -28,6 +30,8 @@ public:
 
 private:
 	void Init();
+
+	void OnAttendeeConnected(COleDispatchDriver *pAttendee);
 // 程式碼實作
 protected:
 	HICON m_hIcon;
@@ -42,5 +46,4 @@ private:
 	CButton* m_pBtnCreateSession;
 	CEdit* m_pEdConnectString;
 	CRDPSRAPISharingSession* m_pSession;
-	CRDPSRAPIInvitationManager* m_pInvitationMgr;
 };

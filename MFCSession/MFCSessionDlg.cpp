@@ -51,15 +51,16 @@ void CMFCSessionDlg::Init()
 		return;
 	}	
 	m_pSession = new CRDPSRAPISharingSession();
-	BOOL bRtn = m_pSession->CreateDispatch(clsID, &oExcep);
-
-	hr = ::CLSIDFromString(L"{53d9c9db-75ab-4271-948a-4c4eb36a8f2b}", &clsID);
-	if (FAILED(hr)) {
+	if (!m_pSession->CreateDispatch(clsID, &oExcep))
 		return;
-	}
 
-	m_pInvitationMgr = new CRDPSRAPIInvitationManager;
-	bRtn = m_pInvitationMgr->CreateDispatch(clsID, &oExcep);
+	//m_pSession->OnAttendeeConnected(this->m_lpDispatch);
+
+}
+
+void CMFCSessionDlg::OnAttendeeConnected(COleDispatchDriver *pAttendee)
+{
+	TRACE(L"arrr \n");
 }
 
 BOOL CMFCSessionDlg::OnInitDialog()
@@ -80,11 +81,11 @@ void CMFCSessionDlg::OnCreateSession()
 {
 	
 	m_pSession->Open();
-
-
-	CRDPSRAPIInvitation* pInvitation = (CRDPSRAPIInvitation*)m_pInvitationMgr->CreateInvitation(L"baseAuth", L"groupName", L"", 64);
-	CString str = pInvitation->get_ConnectionString();
-	TRACE(L"%s \n ", str);;
+	
+	CRDPSRAPIInvitationManager Mgr = m_pSession->get_Invitations();
+	CRDPSRAPIInvitation pInvation = Mgr.CreateInvitation(L"baseAuth", L"groupName", L"", 64);
+	CString strConnectionString = pInvation.get_ConnectionString();
+	m_pEdConnectString->SetWindowText(strConnectionString);
 }
 
 // 如果將最小化按鈕加入您的對話方塊，您需要下列的程式碼，
