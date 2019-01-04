@@ -8,6 +8,8 @@
 #include "CRDPSRAPIInvitationManager.h"
 #include "CIRDPSessionEvents.h"
 #include "CRDPSRAPIAttendee.h"
+#include "CRDPSRAPIAttendeeManager.h"
+
 // CMFCSessionDlg ¹ï¸Ü¤è¶ô
 class CMFCSessionDlg : public CDialogEx
 {
@@ -41,6 +43,7 @@ protected:
 	afx_msg void OnCreateSession();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	void OnTimer(UINT_PTR nIDEvent);
 	DECLARE_MESSAGE_MAP()
 private:
 	CButton* m_pBtnCreateSession;

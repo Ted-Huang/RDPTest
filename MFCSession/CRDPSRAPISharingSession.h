@@ -1,8 +1,7 @@
 //電腦已經從 Typelib 精靈以加入類別方式產生 IDispatch 包裝函式類別
-
+#pragma once
 #import "C:\\Windows\\System32\\rdpencom.dll" no_namespace
 // CRDPSRAPISharingSession 包裝函式類別
-
 class CRDPSRAPISharingSession : public COleDispatchDriver
 {
 public:
@@ -91,12 +90,7 @@ public:
 		static BYTE parms[] = VTS_PI4 VTS_PI4 VTS_PI4 VTS_PI4;
 		InvokeHelper(0x67, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pleft, ptop, pright, pbottom);
 	}
-	void OnAttendeeConnected(LPDISPATCH pAttendee)
-	{
-		static BYTE parms[] = VTS_DISPATCH;
-		InvokeHelper(0x12d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pAttendee);
-		TRACE(L"uiouoi \n");
-	}
+	void OnAttendeeConnected(LPDISPATCH pAttendee);
 	// IRDPSRAPISharingSession 屬性
 public:
 

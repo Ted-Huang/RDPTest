@@ -11,11 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-
-// CMFCSessionDlg 對話方塊
-
-
-
 CMFCSessionDlg::CMFCSessionDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CMFCSessionDlg::IDD, pParent)
 {
@@ -31,8 +26,51 @@ BEGIN_MESSAGE_MAP(CMFCSessionDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(ITEM_BTNCREATE, OnCreateSession)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
+#define TIMER_TEST	1
+
+void CMFCSessionDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	switch (nIDEvent)
+	{
+	case TIMER_TEST:
+	{
+		if (!m_pSession)
+			return;
+		CRDPSRAPIAttendeeManager Mgr = m_pSession->get_Attendees();
+		IUnknown *pUnk = Mgr.get__NewEnum();
+		IEnumVARIANT *pEnum;
+		HRESULT hr = pUnk->QueryInterface(IID_IEnumVARIANT, (void**)&pEnum);
+		if (FAILED(hr))
+			return;
+
+		// Enumerate the collection.
+		VARIANT var;
+		ULONG lFetch;
+
+		VariantInit(&var);
+		hr = pEnum->Next(1, &var, &lFetch);
+		int nIndex = 1; 
+		while (hr == S_OK)
+		{
+			if (lFetch == 1)
+			{
+				CRDPSRAPIAttendee att = Mgr.get_Item(nIndex);
+				if (att.get_ControlLevel() != CTRL_LEVEL_INTERACTIVE)
+					att.put_ControlLevel(3);
+			}
+			VariantClear(&var);
+			hr = pEnum->Next(1, &var, &lFetch);
+			nIndex++;
+		};
+	}
+		
+	default:
+		break;
+	}
+}
 
 // CMFCSessionDlg 訊息處理常式
 void CMFCSessionDlg::Init()
@@ -54,8 +92,14 @@ void CMFCSessionDlg::Init()
 	if (!m_pSession->CreateDispatch(clsID, &oExcep))
 		return;
 
-	//m_pSession->OnAttendeeConnected(this->m_lpDispatch);
+	SetTimer(TIMER_TEST, 1000, NULL);
+}
 
+void CRDPSRAPISharingSession::OnAttendeeConnected(LPDISPATCH pAttendee)
+{
+	static BYTE parms[] = VTS_DISPATCH;
+	InvokeHelper(0x12d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pAttendee);
+	TRACE(L"uiouoi \n");
 }
 
 void CMFCSessionDlg::OnAttendeeConnected(COleDispatchDriver *pAttendee)
@@ -81,7 +125,6 @@ void CMFCSessionDlg::OnCreateSession()
 {
 	
 	m_pSession->Open();
-	
 	CRDPSRAPIInvitationManager Mgr = m_pSession->get_Invitations();
 	CRDPSRAPIInvitation pInvation = Mgr.CreateInvitation(L"baseAuth", L"groupName", L"", 64);
 	CString strConnectionString = pInvation.get_ConnectionString();
