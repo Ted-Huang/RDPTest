@@ -25,15 +25,22 @@ namespace ViewRDP
         {
             try
             {
+                
                 axRDPViewer1.Connect(txtConnectString.Text, "groupName", "");
+                
                 this.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                axRDPViewer1.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                //axRDPViewer1.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            axRDPViewer1.Disconnect();
         }
     }
 }

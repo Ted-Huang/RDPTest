@@ -32,11 +32,15 @@
             this.axRDPViewer1 = new AxRDPCOMAPILib.AxRDPViewer();
             this.txtConnectString = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.axRDPViewer1)).BeginInit();
             this.SuspendLayout();
             // 
             // axRDPViewer1
             // 
+            this.axRDPViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.axRDPViewer1.Enabled = true;
             this.axRDPViewer1.Location = new System.Drawing.Point(12, 42);
             this.axRDPViewer1.Name = "axRDPViewer1";
@@ -61,11 +65,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Location = new System.Drawing.Point(897, 14);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.btnDisconnect.TabIndex = 3;
+            this.btnDisconnect.Text = "disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1448, 718);
+            this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtConnectString);
             this.Controls.Add(this.axRDPViewer1);
@@ -83,6 +98,7 @@
         private AxRDPCOMAPILib.AxRDPViewer axRDPViewer1;
         private System.Windows.Forms.TextBox txtConnectString;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnDisconnect;
     }
 }
 

@@ -12,6 +12,7 @@ private:
 	enum{
 		ITEM_START = 0, 
 		ITEM_BTNCONNECT,
+		ITEM_BTNDISCONNECT,
 		ITEM_EDSESSTION,
 		ITEM_VIEW,
 		ITEM_END,
@@ -35,12 +36,14 @@ protected:
 	// 產生的訊息對應函式
 	virtual BOOL OnInitDialog();
 	afx_msg void OnConnect();
+	afx_msg void OnDisConnect();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 
 private:
-	CButton* m_pBtnCreate;
+	CButton* m_pBtnConnect;
+	CButton* m_pBtnDisconnect;
 	CEdit* m_pEdSession;
 	CRDPSRAPIViewer* m_pViewer;
 };

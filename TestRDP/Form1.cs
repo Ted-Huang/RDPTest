@@ -30,7 +30,7 @@ namespace WindowsFormsApplication1
                 RDPSession _rdpSession = new RDPSession();  // 新建RDP Session
 
                 //_rdpSession.SetDesktopSharedRect(0, 0, 1920, 1080);// 設定共享區域，如果不設定預設為整個螢幕，當然如果有多個螢幕，還是設定下主螢幕，否則，區域會很大
-
+                
                 _rdpSession.Open(); // 開啟會話
                 
                 IRDPSRAPIInvitation invitation = _rdpSession.Invitations.CreateInvitation("baseAuth", "groupName", "", 64);  // 建立申請
@@ -48,7 +48,7 @@ namespace WindowsFormsApplication1
         {
 
             IRDPSRAPIAttendee pAttendee = pObjAttendee as IRDPSRAPIAttendee;
-
+            
             pAttendee.ControlLevel = CTRL_LEVEL.CTRL_LEVEL_INTERACTIVE;
         }
 
