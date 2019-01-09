@@ -6,7 +6,7 @@
 #include "MFCView.h"
 #include "MFCViewDlg.h"
 #include "afxdialogex.h"
-
+#include "RDPViewDlg.h"
 //CRDPSRAPIViewer  ¨Ó¦ÛC:\Windows\System32\rdpencom.dll
 
 #ifdef _DEBUG
@@ -69,10 +69,14 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	CString strSession;
-	m_pEdSession->GetWindowText(strSession);
+	CDynDialogEx dlg(this);
+	int nn = dlg.DoModal();
+	TRACE(L"%d %d \n", nn, GetLastError());
 
-	m_pViewer->Connect(strSession, L"groupName", L"");
+	//CString strSession;
+	//m_pEdSession->GetWindowText(strSession);
+
+	//m_pViewer->Connect(strSession, L"groupName", L"");
 }
 
 void CMFCViewDlg::OnDisConnect()
