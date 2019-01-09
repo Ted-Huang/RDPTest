@@ -57,8 +57,17 @@ CDynDialogEx::CDynDialogEx(CWnd* pParent /*=NULL*/)
 {
 	m_pParentWnd = pParent;
 	m_strCaption = _T("");
-	//m_pFont = NULL;
-	m_wFontSize = 0;
+
+	CRect rcDesktop;
+	// Get a handle to the desktop window
+	HWND hDesktop = ::GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	::GetWindowRect(hDesktop, &rcDesktop);
+	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT;
+	m_DialogTemplate.x = 0;
+	m_DialogTemplate.y = 0;
+	m_DialogTemplate.cx = (short)rcDesktop.Width() / 2;
+	m_DialogTemplate.cy = (short)rcDesktop.Height() / 2;
 }
 
 CDynDialogEx::~CDynDialogEx()
@@ -95,10 +104,6 @@ INT_PTR CDynDialogEx::DoModal()
 	szFontName[cWC] = 0;
 	nFontNameLen = (cWC)* sizeof(WCHAR);
 
-	if (m_wFontSize == 0) {
-		m_wFontSize = (unsigned short)LogFont.lfHeight;
-	}
-
 	//Prework for setting caption in dialog...
 	cWC = _tcslen(m_strCaption) + 1;
 
@@ -129,10 +134,6 @@ INT_PTR CDynDialogEx::DoModal()
 		}
 		BYTE *pdest = pBuffer;
 
-		m_DialogTemplate.x = 0;
-		m_DialogTemplate.y = 0;
-		m_DialogTemplate.cx = 800;
-		m_DialogTemplate.cy = 800;
 		// transfer DLGTEMPLATE structure to the buffer
 		memcpy(pdest, &m_DialogTemplate, sizeof(DLGTEMPLATE));	// DLGTemplate
 		pdest += sizeof(DLGTEMPLATE);
@@ -143,7 +144,7 @@ INT_PTR CDynDialogEx::DoModal()
 		memcpy(pdest, szBoxCaption, szBoxLen);			// Caption
 		pdest += szBoxLen;
 
-		*(WORD*)pdest = m_wFontSize;						// font size
+		*(WORD*)pdest = (unsigned short)LogFont.lfHeight;						// font size
 		pdest += sizeof(WORD);
 		memcpy(pdest, szFontName, nFontNameLen);		// font name
 		pdest += nFontNameLen;
@@ -153,9 +154,12 @@ INT_PTR CDynDialogEx::DoModal()
 		if (m_lpDialogTemplate != NULL) {
 			m_lpDialogTemplate = NULL;
 		}
+
 		//this->MoveWindow(0, 0, 800, 700);
 		InitModalIndirect((LPDLGTEMPLATE)pBuffer, m_pParentWnd);
 		iRet = CDialog::DoModal();
+
+
 
 		LocalUnlock(hLocal);
 		LocalFree(hLocal);

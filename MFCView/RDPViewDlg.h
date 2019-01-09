@@ -70,6 +70,5 @@ public:
 protected:
 	CWnd *m_pParentWnd;
 	CString m_strCaption;
-	WORD m_wFontSize;
 	DLGTEMPLATE m_DialogTemplate;
 };
