@@ -33,6 +33,15 @@ CMFCSessionDlg::CMFCSessionDlg(CWnd* pParent /*=NULL*/)
 CMFCSessionDlg::~CMFCSessionDlg()
 {
 	CoUninitialize();
+	if (m_pBtnCreateSession){
+		delete m_pBtnCreateSession;
+		m_pBtnCreateSession = NULL;
+	}
+
+	if (m_pEdConnectString){
+		delete m_pEdConnectString;
+		m_pEdConnectString = NULL;
+	}
 }
 
 void CMFCSessionDlg::DoDataExchange(CDataExchange* pDX)
@@ -44,51 +53,7 @@ BEGIN_MESSAGE_MAP(CMFCSessionDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(ITEM_BTNCREATE, OnCreateSession)
-	ON_WM_TIMER()
 END_MESSAGE_MAP()
-
-#define TIMER_TEST	1
-
-void CMFCSessionDlg::OnTimer(UINT_PTR nIDEvent)
-{
-	//switch (nIDEvent)
-	//{
-	//case TIMER_TEST:
-	//{
-	//	if (!m_pSession)
-	//		return;
-	//	CRDPSRAPIAttendeeManager Mgr = m_pSession->get_Attendees();
-	//	IUnknown *pUnk = Mgr.get__NewEnum();
-	//	IEnumVARIANT *pEnum;
-	//	HRESULT hr = pUnk->QueryInterface(IID_IEnumVARIANT, (void**)&pEnum);
-	//	if (FAILED(hr))
-	//		return;
-
-	//	// Enumerate the collection.
-	//	VARIANT var;
-	//	ULONG lFetch;
-
-	//	VariantInit(&var);
-	//	hr = pEnum->Next(1, &var, &lFetch);
-	//	int nIndex = 1; 
-	//	while (hr == S_OK)
-	//	{
-	//		if (lFetch == 1)
-	//		{
-	//			CRDPSRAPIAttendee att = Mgr.get_Item(nIndex);
-	//			if (att.get_ControlLevel() != CTRL_LEVEL_INTERACTIVE)
-	//				att.put_ControlLevel(3);
-	//		}
-	//		VariantClear(&var);
-	//		hr = pEnum->Next(1, &var, &lFetch);
-	//		nIndex++;
-	//	};
-	//}
-	//	
-	//default:
-	//	break;
-	//}
-}
 
 // CMFCSessionDlg 訊息處理常式
 void CMFCSessionDlg::Init()
@@ -109,8 +74,6 @@ void CMFCSessionDlg::Init()
 	//m_pSession = new CRDPSRAPISharingSession();
 	//if (!m_pSession->CreateDispatch(clsID, &oExcep))
 	//	return;
-
-	SetTimer(TIMER_TEST, 1000, NULL);
 }
 
 
@@ -156,7 +119,8 @@ int ConnectEvent(IUnknown* Container, REFIID riid, IUnknown* Advisor, IConnectio
 void OnAttendeeConnected(IDispatch *pAttendee){
 	IRDPSRAPIAttendee *pRDPAtendee;
 	pAttendee->QueryInterface(__uuidof(IRDPSRAPIAttendee), (void**)&pRDPAtendee);
-	pRDPAtendee->put_ControlLevel(CTRL_LEVEL::CTRL_LEVEL_INTERACTIVE);
+	if (pRDPAtendee)
+		pRDPAtendee->put_ControlLevel(CTRL_LEVEL::CTRL_LEVEL_INTERACTIVE);
 	//AddText(infoLog, "An attendee connected!\r\n");
 }
 
