@@ -101,14 +101,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CIRDPSessionEvents.h" />
-    <ClInclude Include="CRDPSRAPIAttendee.h" />
-    <ClInclude Include="CRDPSRAPIAttendeeManager.h" />
-    <ClInclude Include="CRDPSRAPIInvitation.h" />
-    <ClInclude Include="CRDPSRAPIInvitationManager.h" />
-    <ClInclude Include="CRDPSRAPISharingSession.h" />
     <ClInclude Include="MFCSession.h" />
     <ClInclude Include="MFCSessionDlg.h" />
+    <ClInclude Include="RDPSession.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -116,6 +111,7 @@
   <ItemGroup>
     <ClCompile Include="MFCSession.cpp" />
     <ClCompile Include="MFCSessionDlg.cpp" />
+    <ClCompile Include="RDPSession.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

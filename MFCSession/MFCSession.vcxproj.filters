@@ -33,22 +33,7 @@
     <ClInclude Include="Resource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CRDPSRAPISharingSession.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CRDPSRAPIInvitation.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CRDPSRAPIInvitationManager.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CIRDPSessionEvents.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CRDPSRAPIAttendee.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
-    <ClInclude Include="CRDPSRAPIAttendeeManager.h">
+    <ClInclude Include="RDPSession.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -60,6 +45,9 @@
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
+    <ClCompile Include="RDPSession.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
   </ItemGroup>

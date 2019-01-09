@@ -5,7 +5,7 @@
 #pragma once
 
 #include "RdpEncomAPI.h"
-
+#include "RDPSession.h"
 // CMFCSessionDlg ¹ï¸Ü¤è¶ô
 class CMFCSessionDlg : public CDialogEx
 {
@@ -41,5 +41,6 @@ protected:
 private:
 	CButton* m_pBtnCreateSession;
 	CEdit* m_pEdConnectString;
-	IRDPSRAPISharingSession * m_pSession;
+
+	CRDPSession xSession;
 };
