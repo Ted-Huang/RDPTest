@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "RDPViewDlg.h"
+#include "Resource.h"
 
-CRDPViewDlg::CRDPViewDlg(CWnd* pParent) : CDialogEx()
+CRDPViewDlg::CRDPViewDlg(CWnd* pParent) : CDialogEx(IDD_RDPVIEW_DIALOG, pParent)
 {
 	m_pParentWnd = pParent;
-	Init();
-	InitUiRectPos();
-	InitUi(); 
 }
 
 CRDPViewDlg::~CRDPViewDlg()
@@ -26,30 +24,118 @@ void CRDPViewDlg::InitUiRectPos()
 {
 	POINT ptBase = { 0, 0 };
 	POINT ptSize = { 0, 0 };
+	CString strCaption = _T("");
 	for (int i = UI_POS_ITEM_BEGIN; i < UI_POS_ITEM_END; i++){
 		UINT uImgId = 0;
 		UINT uLanId = 0;
 		switch (i){
 		case UI_POS_BTN_CONNECT:
-			ptBase = { 140, 10 };
-			ptSize = { 1140, 860 };
+			ptBase = { 0, 0 };
+			ptSize = { 50, 30 };
+			strCaption = _T("³s½u");
 			break;
+		case UI_POS_BTN_DISCONNECT:
+			ptBase = { 50, 0 };
+			ptSize = { 50, 30 };
+			strCaption = _T("Â_½u");
+			break;
+		case UI_POS_EDIT_CONNTIONSTRING:
+			ptBase = { 100, 0 };
+			ptSize = { 1500, 30 };
+			break;
+		case UI_POS_RDPVIEW_RDPVIEW:
+			ptBase = { 0, 50 };
+			ptSize = { 500, 500 };
+			break;
+		
 		}
+
 		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
 	}
 }
 void CRDPViewDlg::InitUi()
 {
+	//BTN
+	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CButton();
+			((CButton*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+		}
+	}
+	//EDIT
+	for (int i = UI_POS_EDIT_BEGIN ; i < UI_POS_EDIT_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CEdit();
+			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER | ES_LEFT , m_xUi[i].rcUi, this, i);
+		}
+	}
+	//RDPVIEW
+	for (int i = UI_POS_RDPVIEW_BEGIN; i < UI_POS_RDPVIEW_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CRDPSRAPIViewer();
+			((CRDPSRAPIViewer*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+		}
+	}
+	
 }
 void CRDPViewDlg::DestroyUi()
 {
+	//BTN
+	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
+		if (m_xUi[i].pCtrl){
+			CButton* pBtn = ((CButton*)m_xUi[i].pCtrl);
+			pBtn->DestroyWindow();
+			delete pBtn;
+			pBtn = NULL;
+		}
+	}
+	//EDIT
+	for (int i = UI_POS_EDIT_BEGIN + 1; i < UI_POS_EDIT_END; i++){
+		if (m_xUi[i].pCtrl){
+			CEdit* pEdit = ((CEdit*)m_xUi[i].pCtrl);
+			pEdit->DestroyWindow();
+			delete pEdit;
+			pEdit = NULL;
+		}
+	}
+
+	//RDPVIEW
+	for (int i = UI_POS_RDPVIEW_BEGIN + 1; i < UI_POS_RDPVIEW_END; i++){
+		if (m_xUi[i].pCtrl){
+			CRDPSRAPIViewer* pView = ((CRDPSRAPIViewer*)m_xUi[i].pCtrl);
+			pView->DestroyWindow();
+			delete pView;
+			pView = NULL;
+		}
+	}
 
 }
+
+
+BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
+	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
+END_MESSAGE_MAP()
+
 
 BOOL CRDPViewDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+	Init();
+	InitUiRectPos();
+	InitUi();
 	return TRUE;
+}
+
+void CRDPViewDlg::OnConnect()
+{
+	if (!m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl || !m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl){
+		return;
+	}
+
+	CString strSession;
+	((CEdit*)m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl)->GetWindowText(strSession);
+
+	((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
 }
 
 CDynDialogEx::CDynDialogEx(CWnd* pParent /*=NULL*/)

@@ -69,14 +69,13 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	CDynDialogEx dlg(this);
+	CRDPViewDlg dlg(this);
 	int nn = dlg.DoModal();
-	TRACE(L"%d %d \n", nn, GetLastError());
+/*
+	CString strSession;
+	m_pEdSession->GetWindowText(strSession);
 
-	//CString strSession;
-	//m_pEdSession->GetWindowText(strSession);
-
-	//m_pViewer->Connect(strSession, L"groupName", L"");
+	m_pViewer->Connect(strSession, L"groupName", L"");*/
 }
 
 void CMFCViewDlg::OnDisConnect()

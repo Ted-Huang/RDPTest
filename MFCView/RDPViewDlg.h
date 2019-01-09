@@ -15,13 +15,15 @@ private:
 
 protected:
 	virtual BOOL OnInitDialog();
+	afx_msg void OnConnect();
+	DECLARE_MESSAGE_MAP()
 private:
 	CWnd *m_pParentWnd;
 
 private:
 	typedef struct UI_ITEM_{
 		RECT rcUi;
-		void *pCtr;
+		void *pCtrl;
 	}UI_ITEM;
 	enum{
 		UI_POS_ITEM_BEGIN = 0,
