@@ -15,6 +15,24 @@ CMFCSessionDlg::CMFCSessionDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CMFCSessionDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	//if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
+	//{
+	//	TRACE(_T("Fatal Error: MFC initialization failed \n"));
+	//	return ;
+	//}
+
+	// Init the COM library - have Windows load up the DLLs.
+	if (FAILED(CoInitialize(NULL)))
+	{
+		TRACE(_T("Fatal Error: OLE initialization failed \n"));
+		return ;
+	}
+}
+
+CMFCSessionDlg::~CMFCSessionDlg()
+{
+	CoUninitialize();
 }
 
 void CMFCSessionDlg::DoDataExchange(CDataExchange* pDX)
@@ -33,43 +51,43 @@ END_MESSAGE_MAP()
 
 void CMFCSessionDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	switch (nIDEvent)
-	{
-	case TIMER_TEST:
-	{
-		if (!m_pSession)
-			return;
-		CRDPSRAPIAttendeeManager Mgr = m_pSession->get_Attendees();
-		IUnknown *pUnk = Mgr.get__NewEnum();
-		IEnumVARIANT *pEnum;
-		HRESULT hr = pUnk->QueryInterface(IID_IEnumVARIANT, (void**)&pEnum);
-		if (FAILED(hr))
-			return;
+	//switch (nIDEvent)
+	//{
+	//case TIMER_TEST:
+	//{
+	//	if (!m_pSession)
+	//		return;
+	//	CRDPSRAPIAttendeeManager Mgr = m_pSession->get_Attendees();
+	//	IUnknown *pUnk = Mgr.get__NewEnum();
+	//	IEnumVARIANT *pEnum;
+	//	HRESULT hr = pUnk->QueryInterface(IID_IEnumVARIANT, (void**)&pEnum);
+	//	if (FAILED(hr))
+	//		return;
 
-		// Enumerate the collection.
-		VARIANT var;
-		ULONG lFetch;
+	//	// Enumerate the collection.
+	//	VARIANT var;
+	//	ULONG lFetch;
 
-		VariantInit(&var);
-		hr = pEnum->Next(1, &var, &lFetch);
-		int nIndex = 1; 
-		while (hr == S_OK)
-		{
-			if (lFetch == 1)
-			{
-				CRDPSRAPIAttendee att = Mgr.get_Item(nIndex);
-				if (att.get_ControlLevel() != CTRL_LEVEL_INTERACTIVE)
-					att.put_ControlLevel(3);
-			}
-			VariantClear(&var);
-			hr = pEnum->Next(1, &var, &lFetch);
-			nIndex++;
-		};
-	}
-		
-	default:
-		break;
-	}
+	//	VariantInit(&var);
+	//	hr = pEnum->Next(1, &var, &lFetch);
+	//	int nIndex = 1; 
+	//	while (hr == S_OK)
+	//	{
+	//		if (lFetch == 1)
+	//		{
+	//			CRDPSRAPIAttendee att = Mgr.get_Item(nIndex);
+	//			if (att.get_ControlLevel() != CTRL_LEVEL_INTERACTIVE)
+	//				att.put_ControlLevel(3);
+	//		}
+	//		VariantClear(&var);
+	//		hr = pEnum->Next(1, &var, &lFetch);
+	//		nIndex++;
+	//	};
+	//}
+	//	
+	//default:
+	//	break;
+	//}
 }
 
 // CMFCSessionDlg 訊息處理常式
@@ -81,26 +99,20 @@ void CMFCSessionDlg::Init()
 	m_pEdConnectString = new CEdit;
 	m_pEdConnectString->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
 	::CoInitialize(NULL);
-	COleException oExcep;
-	CLSID clsID;
+	//COleException oExcep;
+	//CLSID clsID;
 
-	HRESULT hr = ::CLSIDFromString(L"{9B78F0E6-3E05-4A5B-B2E8-E743A8956B65}", &clsID);
-	if (FAILED(hr)) {
-		return;
-	}	
-	m_pSession = new CRDPSRAPISharingSession();
-	if (!m_pSession->CreateDispatch(clsID, &oExcep))
-		return;
+	//HRESULT hr = ::CLSIDFromString(L"{9B78F0E6-3E05-4A5B-B2E8-E743A8956B65}", &clsID);
+	//if (FAILED(hr)) {
+	//	return;
+	//}	
+	//m_pSession = new CRDPSRAPISharingSession();
+	//if (!m_pSession->CreateDispatch(clsID, &oExcep))
+	//	return;
 
 	SetTimer(TIMER_TEST, 1000, NULL);
 }
 
-void CRDPSRAPISharingSession::OnAttendeeConnected(LPDISPATCH pAttendee)
-{
-	static BYTE parms[] = VTS_DISPATCH;
-	InvokeHelper(0x12d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, pAttendee);
-	TRACE(L"uiouoi \n");
-}
 
 void CMFCSessionDlg::OnAttendeeConnected(COleDispatchDriver *pAttendee)
 {
@@ -124,10 +136,47 @@ BOOL CMFCSessionDlg::OnInitDialog()
 void CMFCSessionDlg::OnCreateSession()
 {
 	
-	m_pSession->Open();
-	CRDPSRAPIInvitationManager Mgr = m_pSession->get_Invitations();
-	CRDPSRAPIInvitation pInvation = Mgr.CreateInvitation(L"baseAuth", L"groupName", L"", 64);
-	CString strConnectionString = pInvation.get_ConnectionString();
+	//m_pSession->Open();
+	//CRDPSRAPIInvitationManager Mgr = m_pSession->get_Invitations();
+	//CRDPSRAPIInvitation pInvation = Mgr.CreateInvitation(L"baseAuth", L"groupName", L"", 64);
+	//CString strConnectionString = pInvation.get_ConnectionString();
+
+	HRESULT hr;
+	IRDPSRAPISharingSession * pSession;
+	hr = CoCreateInstance(__uuidof(RDPSession), NULL, CLSCTX_INPROC_SERVER, __uuidof(IRDPSRAPISharingSession), (void**)&pSession);
+	if (FAILED(hr))
+		return ;
+
+	hr = pSession->Open();
+
+	if (FAILED(hr))
+		return ;
+
+	IRDPSRAPIInvitationManager* pInvitationMgr;
+
+	hr = pSession->get_Invitations(&pInvitationMgr);
+
+	if (FAILED(hr))
+		return ;
+
+	CString strAuth = _T("baseAuth"), strGroup = _T("groupName"), strPwd = _T("");
+	BSTR bsAuth = strAuth.AllocSysString(), bsGroup = strGroup.AllocSysString(), bsPwd = strPwd.AllocSysString();
+	IRDPSRAPIInvitation * pInvatition;
+	hr = pInvitationMgr->CreateInvitation(bsAuth, bsGroup, bsPwd, 64, &pInvatition);
+	SysFreeString(bsAuth);
+	SysFreeString(bsGroup);
+	SysFreeString(bsPwd);
+	if (FAILED(hr))
+		return ;
+
+	BSTR bsConnectionString;
+	hr = pInvatition->get_ConnectionString(&bsConnectionString);
+
+	if (FAILED(hr))
+		return ;
+
+	CString strConnectionString = bsConnectionString;
+	SysFreeString(bsConnectionString);
 	m_pEdConnectString->SetWindowText(strConnectionString);
 }
 

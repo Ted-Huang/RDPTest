@@ -3,12 +3,8 @@
 //
 
 #pragma once
-#include "CRDPSRAPISharingSession.h"
-#include "CRDPSRAPIInvitation.h"
-#include "CRDPSRAPIInvitationManager.h"
-#include "CIRDPSessionEvents.h"
-#include "CRDPSRAPIAttendee.h"
-#include "CRDPSRAPIAttendeeManager.h"
+
+#include "RdpEncomAPI.h"
 
 // CMFCSessionDlg 對話方塊
 class CMFCSessionDlg : public CDialogEx
@@ -23,7 +19,7 @@ private:
 // 建構
 public:
 	CMFCSessionDlg(CWnd* pParent = NULL);	// 標準建構函式
-
+	~CMFCSessionDlg();
 // 對話方塊資料
 	enum { IDD = IDD_MFCSESSION_DIALOG };
 
@@ -48,5 +44,5 @@ protected:
 private:
 	CButton* m_pBtnCreateSession;
 	CEdit* m_pEdConnectString;
-	CRDPSRAPISharingSession* m_pSession;
+	IRDPSRAPISharingSession * m_pSession;
 };
