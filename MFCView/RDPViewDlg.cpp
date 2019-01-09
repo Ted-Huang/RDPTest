@@ -1,26 +1,26 @@
 #include "stdafx.h"
 #include "RDPViewDlg.h"
 #include "Resource.h"
+//
+//CRDPViewDlg::CRDPViewDlg(CWnd* pParent) : CDialogEx(IDD_RDPVIEW_DIALOG, pParent)
+//{
+//	m_pParentWnd = pParent;
+//}
+//
+//CRDPViewDlg::~CRDPViewDlg()
+//{
+//	Finalize();
+//}
 
-CRDPViewDlg::CRDPViewDlg(CWnd* pParent) : CDialogEx(IDD_RDPVIEW_DIALOG, pParent)
-{
-	m_pParentWnd = pParent;
-}
-
-CRDPViewDlg::~CRDPViewDlg()
-{
-	Finalize();
-}
-
-void CRDPViewDlg::Init()
+void CDynDialogEx::Init()
 {
 	memset(m_xUi, 0, sizeof(m_xUi));
 }
-void CRDPViewDlg::Finalize()
+void CDynDialogEx::Finalize()
 {
 	DestroyUi();
 }
-void CRDPViewDlg::InitUiRectPos()
+void CDynDialogEx::InitUiRectPos()
 {
 	POINT ptBase = { 0, 0 };
 	POINT ptSize = { 0, 0 };
@@ -53,7 +53,7 @@ void CRDPViewDlg::InitUiRectPos()
 		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
 	}
 }
-void CRDPViewDlg::InitUi()
+void CDynDialogEx::InitUi()
 {
 	//BTN
 	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
@@ -78,7 +78,7 @@ void CRDPViewDlg::InitUi()
 	}
 	
 }
-void CRDPViewDlg::DestroyUi()
+void CDynDialogEx::DestroyUi()
 {
 	//BTN
 	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
@@ -112,12 +112,12 @@ void CRDPViewDlg::DestroyUi()
 }
 
 
-BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CDynDialogEx, CDialogEx)
 	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
 END_MESSAGE_MAP()
 
 
-BOOL CRDPViewDlg::OnInitDialog()
+BOOL CDynDialogEx::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	Init();
@@ -126,7 +126,7 @@ BOOL CRDPViewDlg::OnInitDialog()
 	return TRUE;
 }
 
-void CRDPViewDlg::OnConnect()
+void CDynDialogEx::OnConnect()
 {
 	if (!m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl || !m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl){
 		return;
@@ -139,7 +139,7 @@ void CRDPViewDlg::OnConnect()
 }
 
 CDynDialogEx::CDynDialogEx(CWnd* pParent /*=NULL*/)
-	: CDialog()
+	: CDialogEx()
 {
 	m_pParentWnd = pParent;
 	m_strCaption = _T("");
