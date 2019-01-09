@@ -11,6 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
+//reference:  http://www.rohitab.com/discuss/topic/41626-rdp-com-server-client/
 CMFCSessionDlg::CMFCSessionDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CMFCSessionDlg::IDD, pParent)
 {

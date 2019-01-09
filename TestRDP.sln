@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_TestRDP", "WindowsFormsApp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegTest", "RegTest\RegTest.vcxproj", "{6CA14D83-112A-4866-B8EC-0B8DB4B1EAF4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COMIntro", "COMIntro\COMIntro.vcxproj", "{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,16 +85,6 @@ Global
 		{6CA14D83-112A-4866-B8EC-0B8DB4B1EAF4}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{6CA14D83-112A-4866-B8EC-0B8DB4B1EAF4}.Release|Win32.ActiveCfg = Release|Win32
 		{6CA14D83-112A-4866-B8EC-0B8DB4B1EAF4}.Release|Win32.Build.0 = Release|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Debug|Win32.Build.0 = Debug|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Release|Any CPU.ActiveCfg = Release|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Release|Win32.ActiveCfg = Release|Win32
-		{D4507ACE-25E1-4B14-8AEE-66326EE12A1C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
