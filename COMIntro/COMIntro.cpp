@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "COMIntro.h"
 #include <atlconv.h>                    // ATL string conversion macros
+#include "RdpEncomAPI.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -35,7 +36,43 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		return 1;
 	}
 
+	HRESULT hr;
+	IRDPSRAPISharingSession * pSession;
+	hr = CoCreateInstance(__uuidof(RDPSession), NULL, CLSCTX_INPROC_SERVER, __uuidof(IRDPSRAPISharingSession), (void**)&pSession);
+	if (FAILED(hr))
+		return 0;
 
+	hr = pSession->Open();
+
+	if (FAILED(hr))
+		return 0;
+
+	IRDPSRAPIInvitationManager* pInvitationMgr;
+
+	hr = pSession->get_Invitations(&pInvitationMgr);
+
+	if (FAILED(hr))
+		return 0;
+
+	CString strAuth = _T("baseAuth"), strGroup = _T("groupName"), strPwd = _T("");
+	BSTR bsAuth = strAuth.AllocSysString(), bsGroup = strGroup.AllocSysString(), bsPwd = strPwd.AllocSysString();
+	IRDPSRAPIInvitation * pInvatition;
+	hr = pInvitationMgr->CreateInvitation(bsAuth, bsGroup, bsPwd, 64, &pInvatition);
+	SysFreeString(bsAuth);
+	SysFreeString(bsGroup);
+	SysFreeString(bsPwd);
+	if (FAILED(hr))
+		return 0;
+
+	BSTR bsConnectionString;
+	hr = pInvatition->get_ConnectionString(&bsConnectionString);
+
+	if (FAILED(hr))
+		return 0;
+
+	CString strConnectionString = bsConnectionString;
+	SysFreeString(bsConnectionString);
+	CoUninitialize();
     return 0;
 }
 
