@@ -2,27 +2,12 @@
 
 #include "CRDPSRAPIViewer.h"
 
-//class CRDPViewDlg :public CDialogEx{
-//public:
-//	CRDPViewDlg(CWnd* pParent = NULL);  
-//	~CRDPViewDlg();
-//
-//private:
-//	CWnd *m_pParentWnd;
-//
-//private:
-//
-//};
-
-/////////////////////////////////////////////////////////////////////////////
-// CDynDialogEx dialog
-
-class CDynDialogEx : public CDialogEx
+class CRDPViewDlg : public CDialogEx
 {
 	// Construction
 public:
-	CDynDialogEx(CWnd* pParent);   // standard constructor
-	~CDynDialogEx();
+	CRDPViewDlg(CWnd* pParent);   // standard constructor
+	~CRDPViewDlg();
 private:
 	void Init();
 	void Finalize();

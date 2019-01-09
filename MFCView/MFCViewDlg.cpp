@@ -69,7 +69,7 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	CDynDialogEx dlg(this);
+	CRDPViewDlg dlg(this);
 	int nn = dlg.DoModal();
 /*
 	CString strSession;

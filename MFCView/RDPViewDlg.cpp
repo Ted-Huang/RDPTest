@@ -1,27 +1,17 @@
 #include "stdafx.h"
 #include "RDPViewDlg.h"
 #include "Resource.h"
-//
-//CRDPViewDlg::CRDPViewDlg(CWnd* pParent) : CDialogEx(IDD_RDPVIEW_DIALOG, pParent)
-//{
-//	m_pParentWnd = pParent;
-//}
-//
-//CRDPViewDlg::~CRDPViewDlg()
-//{
-//	Finalize();
-//}
 
-void CDynDialogEx::Init()
+void CRDPViewDlg::Init()
 {
 	memset(m_xUi, 0, sizeof(m_xUi));
 }
-void CDynDialogEx::Finalize()
+void CRDPViewDlg::Finalize()
 {
 	DestroyUi();
 }
 #define CONTROL_HEIGHT	30
-void CDynDialogEx::InitUiRectPos()
+void CRDPViewDlg::InitUiRectPos()
 {
 	POINT ptBase = { 0, 0 };
 	POINT ptSize = { 0, 0 };
@@ -60,7 +50,7 @@ void CDynDialogEx::InitUiRectPos()
 		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
 	}
 }
-void CDynDialogEx::InitUi()
+void CRDPViewDlg::InitUi()
 {
 	CString strCaption;
 	//BTN
@@ -94,7 +84,7 @@ void CDynDialogEx::InitUi()
 	}
 	
 }
-void CDynDialogEx::DestroyUi()
+void CRDPViewDlg::DestroyUi()
 {
 	//BTN
 	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
@@ -137,12 +127,12 @@ void CDynDialogEx::DestroyUi()
 }
 
 
-BEGIN_MESSAGE_MAP(CDynDialogEx, CDialogEx)
+BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
 	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
 END_MESSAGE_MAP()
 
 
-BOOL CDynDialogEx::OnInitDialog()
+BOOL CRDPViewDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	CRect rcDesktop;
@@ -159,7 +149,7 @@ BOOL CDynDialogEx::OnInitDialog()
 	return TRUE;
 }
 
-void CDynDialogEx::OnConnect()
+void CRDPViewDlg::OnConnect()
 {
 	if (!m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl || !m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl){
 		return;
@@ -171,7 +161,7 @@ void CDynDialogEx::OnConnect()
 	((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
 }
 
-CDynDialogEx::CDynDialogEx(CWnd* pParent /*=NULL*/)
+CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx()
 {
 	m_pParentWnd = pParent;
@@ -189,11 +179,11 @@ CDynDialogEx::CDynDialogEx(CWnd* pParent /*=NULL*/)
 	m_DialogTemplate.cy = (short)rcDesktop.Height() / 2;
 }
 
-CDynDialogEx::~CDynDialogEx()
+CRDPViewDlg::~CRDPViewDlg()
 {
 }
 
-INT_PTR CDynDialogEx::DoModal()
+INT_PTR CRDPViewDlg::DoModal()
 {
 	//
 	// Get font info from mainwindow of the application
@@ -249,7 +239,7 @@ INT_PTR CDynDialogEx::DoModal()
 		BYTE*	pBuffer = (BYTE*)LocalLock(hLocal);
 		if (pBuffer == NULL) {
 			LocalFree(hLocal);
-			AfxMessageBox(_T("CDynDialogEx::DoModal() : LocalLock Failed"));
+			AfxMessageBox(_T("CRDPViewDlg::DoModal() : LocalLock Failed"));
 		}
 		BYTE *pdest = pBuffer;
 
@@ -288,7 +278,7 @@ INT_PTR CDynDialogEx::DoModal()
 		return iRet;
 	}
 	else {
-		AfxMessageBox(_T("CDynDialogEx::DoModal() : LocalAllock Failed"));
+		AfxMessageBox(_T("CRDPViewDlg::DoModal() : LocalAllock Failed"));
 		return -1;
 	}
 }
