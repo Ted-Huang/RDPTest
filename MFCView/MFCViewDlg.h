@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include "CRDPSRAPIViewer.h"
 
 // CMFCViewDlg ¹ï¸Ü¤è¶ô
 class CMFCViewDlg : public CDialogEx
@@ -45,5 +44,5 @@ private:
 	CButton* m_pBtnConnect;
 	CButton* m_pBtnDisconnect;
 	CEdit* m_pEdSession;
-	CRDPSRAPIViewer* m_pViewer;
+	//CRDPSRAPIViewer* m_pViewer;
 };

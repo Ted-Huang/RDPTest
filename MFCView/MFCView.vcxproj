@@ -101,7 +101,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CRDPSRAPIViewer.h" />
     <ClInclude Include="MFCView.h" />
     <ClInclude Include="MFCViewDlg.h" />
     <ClInclude Include="RDPViewDlg.h" />

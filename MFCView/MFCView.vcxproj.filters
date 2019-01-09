@@ -33,9 +33,6 @@
     <ClInclude Include="Resource.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="CRDPSRAPIViewer.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="RDPViewDlg.h">
       <Filter>標頭檔</Filter>
     </ClInclude>

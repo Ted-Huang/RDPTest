@@ -39,8 +39,8 @@ void CMFCViewDlg::Init()
 	m_pBtnConnect->Create(_T("DisConnect"), WS_CHILD | WS_VISIBLE, CRect(0, 20, 120, 40), this, ITEM_BTNDISCONNECT);
 	m_pEdSession = new CEdit;
 	m_pEdSession->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
-	m_pViewer = new CRDPSRAPIViewer;
-	m_pViewer->Create(_T("View"), WS_CHILD | WS_VISIBLE, CRect(0, 50, 1700, 900), this, ITEM_VIEW);
+	//m_pViewer = new CRDPSRAPIViewer;
+	//m_pViewer->Create(_T("View"), WS_CHILD | WS_VISIBLE, CRect(0, 50, 1700, 900), this, ITEM_VIEW);
 }
 
 BEGIN_MESSAGE_MAP(CMFCViewDlg, CDialogEx)
@@ -80,7 +80,7 @@ void CMFCViewDlg::OnConnect()
 
 void CMFCViewDlg::OnDisConnect()
 {
-	m_pViewer->Disconnect();
+	//m_pViewer->Disconnect();
 }
 // 如果將最小化按鈕加入您的對話方塊，您需要下列的程式碼，
 // 以便繪製圖示。對於使用文件/檢視模式的 MFC 應用程式，
