@@ -28,8 +28,6 @@ public:
 
 private:
 	void Init();
-
-	void OnAttendeeConnected(COleDispatchDriver *pAttendee);
 // 程式碼實作
 protected:
 	HICON m_hIcon;
