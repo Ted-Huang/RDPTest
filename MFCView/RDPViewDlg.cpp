@@ -20,34 +20,41 @@ void CDynDialogEx::Finalize()
 {
 	DestroyUi();
 }
+#define CONTROL_HEIGHT	30
 void CDynDialogEx::InitUiRectPos()
 {
 	POINT ptBase = { 0, 0 };
 	POINT ptSize = { 0, 0 };
-	CString strCaption = _T("");
+	CRect rcClient;
+	GetClientRect(rcClient);
 	for (int i = UI_POS_ITEM_BEGIN; i < UI_POS_ITEM_END; i++){
 		UINT uImgId = 0;
 		UINT uLanId = 0;
 		switch (i){
+			//BTN
 		case UI_POS_BTN_CONNECT:
 			ptBase = { 0, 0 };
-			ptSize = { 50, 30 };
-			strCaption = _T("連線");
+			ptSize = { 50, CONTROL_HEIGHT };
 			break;
-		case UI_POS_BTN_DISCONNECT:
+		case UI_POS_BTN_DISCONNECT:// no use
 			ptBase = { 50, 0 };
-			ptSize = { 50, 30 };
-			strCaption = _T("斷線");
+			ptSize = { 50, CONTROL_HEIGHT };
 			break;
-		case UI_POS_EDIT_CONNTIONSTRING:
+			//CB
+		case UI_POS_CB_SLAVES:
 			ptBase = { 100, 0 };
+			ptSize = { 50, CONTROL_HEIGHT };
+			break;
+			//edit
+		case UI_POS_EDIT_CONNTIONSTRING: //for test
+			ptBase = { 150, 0 };
 			ptSize = { 1500, 30 };
 			break;
+			//view
 		case UI_POS_RDPVIEW_RDPVIEW:
-			ptBase = { 0, 50 };
-			ptSize = { 500, 500 };
+			ptBase = { 0, CONTROL_HEIGHT };
+			ptSize = { rcClient.Width(), rcClient.Height() - CONTROL_HEIGHT };
 			break;
-		
 		}
 
 		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
@@ -55,18 +62,27 @@ void CDynDialogEx::InitUiRectPos()
 }
 void CDynDialogEx::InitUi()
 {
+	CString strCaption;
 	//BTN
 	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CButton();
-			((CButton*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+			strCaption = (i == UI_POS_BTN_CONNECT) ? L"連線" : L"";
+			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+		}
+	}
+	//CB
+	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CComboBox();
+			((CComboBox*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST, m_xUi[i].rcUi, this, i);
 		}
 	}
 	//EDIT
 	for (int i = UI_POS_EDIT_BEGIN ; i < UI_POS_EDIT_END; i++){
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CEdit();
-			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER | ES_LEFT , m_xUi[i].rcUi, this, i);
+			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER , m_xUi[i].rcUi, this, i);
 		}
 	}
 	//RDPVIEW
@@ -87,6 +103,15 @@ void CDynDialogEx::DestroyUi()
 			pBtn->DestroyWindow();
 			delete pBtn;
 			pBtn = NULL;
+		}
+	}
+	//CB
+	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
+		if (m_xUi[i].pCtrl){
+			CComboBox* pCB = ((CComboBox*)m_xUi[i].pCtrl);
+			pCB->DestroyWindow();
+			delete pCB;
+			pCB = NULL;
 		}
 	}
 	//EDIT
@@ -120,9 +145,17 @@ END_MESSAGE_MAP()
 BOOL CDynDialogEx::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+	CRect rcDesktop;
+	// Get a handle to the desktop window
+	HWND hDesktop = ::GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	::GetWindowRect(hDesktop, &rcDesktop);
+	MoveWindow(0, 0, rcDesktop.Width(), rcDesktop.Height());
+
 	Init();
 	InitUiRectPos();
 	InitUi();
+
 	return TRUE;
 }
 
