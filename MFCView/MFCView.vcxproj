@@ -110,7 +110,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CRDPSRAPIViewer.cpp" />
     <ClCompile Include="MFCView.cpp" />
     <ClCompile Include="MFCViewDlg.cpp" />
     <ClCompile Include="RDPViewDlg.cpp" />

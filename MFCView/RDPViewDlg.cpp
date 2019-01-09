@@ -2,6 +2,9 @@
 #include "RDPViewDlg.h"
 #include "Resource.h"
 
+
+IMPLEMENT_DYNCREATE(CRDPSRAPIViewer, CWnd)
+
 void CRDPViewDlg::Init()
 {
 	memset(m_xUi, 0, sizeof(m_xUi));
