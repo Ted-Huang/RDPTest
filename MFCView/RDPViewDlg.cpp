@@ -1,209 +1,11 @@
 #include "stdafx.h"
 #include "RDPViewDlg.h"
 
+#define CONTROL_HEIGHT	30
+
 IMPLEMENT_DYNCREATE(CRDPSRAPIViewer, CWnd)
 
-void CRDPViewDlg::Init()
-{
-	memset(m_xUi, 0, sizeof(m_xUi));
-}
-void CRDPViewDlg::Finalize()
-{
-	DestroyUi();
-}
-#define CONTROL_HEIGHT	30
-void CRDPViewDlg::InitUiRectPos()
-{
-	POINT ptBase = { 0, 0 };
-	POINT ptSize = { 0, 0 };
-	CRect rcClient;
-	GetClientRect(rcClient);
-	for (int i = UI_POS_ITEM_BEGIN; i < UI_POS_ITEM_END; i++){
-		UINT uImgId = 0;
-		UINT uLanId = 0;
-		switch (i){
-			//BTN
-		case UI_POS_BTN_CONNECT:
-			ptBase = { 0, 0 };
-			ptSize = { 50, CONTROL_HEIGHT };
-			break;
-			//CB
-		case UI_POS_CB_SLAVES:
-			ptBase = { 50, 0 };
-			ptSize = { 100, CONTROL_HEIGHT };
-			break;
-			//edit
-		case UI_POS_EDIT_CONNTIONSTRING: //for test
-			ptBase = { 150, 0 };
-			ptSize = { 1500, 30 };
-			break;
-			//view
-		case UI_POS_RDPVIEW_RDPVIEW:
-			ptBase = { 0, CONTROL_HEIGHT };
-			ptSize = { rcClient.Width(), rcClient.Height() - CONTROL_HEIGHT };
-			break;
-		}
-
-		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
-	}
-}
-void CRDPViewDlg::InitUi()
-{
-	CString strCaption;
-	//BTN
-	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
-		if (!m_xUi[i].pCtrl){
-			m_xUi[i].pCtrl = new CButton();
-			strCaption = (i == UI_POS_BTN_CONNECT) ? L"連線" : L"";
-			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
-		}
-	}
-	//CB
-	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
-		if (!m_xUi[i].pCtrl){
-			m_xUi[i].pCtrl = new CComboBox();
-			((CComboBox*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST, m_xUi[i].rcUi, this, i);
-		}
-		if (m_pvConnectionString && m_xUi[UI_POS_CB_SLAVES].pCtrl){
-			for (int i = 0; i < m_pvConnectionString->size(); i++){
-				CString str;
-				str.Format(_T("Slave: %d"), m_pvConnectionString->at(i).first + 1);
-				((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->AddString(str);
-				((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->SetItemData(i, (DWORD)&m_pvConnectionString->at(i));
-			}
-
-		}
-	}
-	//EDIT
-	for (int i = UI_POS_EDIT_BEGIN; i < UI_POS_EDIT_END; i++){
-		if (!m_xUi[i].pCtrl){
-			m_xUi[i].pCtrl = new CEdit();
-			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER, m_xUi[i].rcUi, this, i);
-		}
-	}
-	//RDPVIEW
-	for (int i = UI_POS_RDPVIEW_BEGIN; i < UI_POS_RDPVIEW_END; i++){
-		if (!m_xUi[i].pCtrl){
-			m_xUi[i].pCtrl = new CRDPSRAPIViewer();
-			((CRDPSRAPIViewer*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_VISIBLE, m_xUi[i].rcUi, this, i);
-		}
-	}
-
-}
-void CRDPViewDlg::DestroyUi()
-{
-	//BTN
-	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
-		if (m_xUi[i].pCtrl){
-			CButton* pBtn = ((CButton*)m_xUi[i].pCtrl);
-			pBtn->DestroyWindow();
-			delete pBtn;
-			pBtn = NULL;
-		}
-	}
-	//CB
-	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
-		if (m_xUi[i].pCtrl){
-			CComboBox* pCB = ((CComboBox*)m_xUi[i].pCtrl);
-			pCB->DestroyWindow();
-			delete pCB;
-			pCB = NULL;
-		}
-	}
-	//EDIT
-	for (int i = UI_POS_EDIT_BEGIN + 1; i < UI_POS_EDIT_END; i++){
-		if (m_xUi[i].pCtrl){
-			CEdit* pEdit = ((CEdit*)m_xUi[i].pCtrl);
-			pEdit->DestroyWindow();
-			delete pEdit;
-			pEdit = NULL;
-		}
-	}
-
-	//RDPVIEW
-	for (int i = UI_POS_RDPVIEW_BEGIN + 1; i < UI_POS_RDPVIEW_END; i++){
-		if (m_xUi[i].pCtrl){
-			CRDPSRAPIViewer* pView = ((CRDPSRAPIViewer*)m_xUi[i].pCtrl);
-			pView->DestroyWindow();
-			delete pView;
-			pView = NULL;
-		}
-	}
-
-}
-
-
-BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
-	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
-END_MESSAGE_MAP()
-
-BOOL CRDPViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
-{
-	WORD wControlID = LOWORD(wParam);
-	WORD wMessageID = HIWORD(wParam);
-
-	if (wControlID != 0) {
-		switch (wControlID) {
-		case IDCANCEL:
-			OnCancel();
-			return TRUE;
-			break;
-		default:
-			CDialogEx::OnCommand(wParam, lParam);
-			break;
-		}
-	}
-}
-// CMFCViewDlg 訊息處理常式
-void CRDPViewDlg::OnCancel()
-{
-	CDialogEx::OnCancel();
-}
-
-BOOL CRDPViewDlg::OnInitDialog()
-{
-	CDialog::OnInitDialog();
-	CRect rcDesktop;
-	// Get a handle to the desktop window
-	HWND hDesktop = ::GetDesktopWindow();
-	// Get the size of screen to the variable desktop
-	::GetWindowRect(hDesktop, &rcDesktop);
-	MoveWindow(0, 0, rcDesktop.Width(), rcDesktop.Height());
-
-	Init();
-	InitUiRectPos();
-	InitUi();
-
-	return TRUE;
-}
-
-void CRDPViewDlg::OnConnect()
-{
-	if (!m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl || !m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl){
-		return;
-	}
-
-	int nSel = ((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->GetCurSel();
-	if (nSel == -1)
-		return;
-	pair<int, CString>* pData = (pair<int, CString>*)((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->GetItemData(nSel);
-	CString strSession = pData->second;
-	CString strEdit;
-	((CEdit*)m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl)->GetWindowText(strEdit);
-	if (strEdit.GetLength() > 0)
-		strSession = strEdit;
-	try
-	{
-		((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
-	}
-	catch (...)
-	{
-		AfxMessageBox(L"RDP error!");
-	}
-}
-
-CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pvConnString)
-	: CDialogEx()
+CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pvConnString): CDialogEx()
 {
 	memset(m_xUi, 0, sizeof(m_xUi));
 	m_pParentWnd = pParent;
@@ -222,7 +24,7 @@ CRDPViewDlg::~CRDPViewDlg()
 {
 	Finalize();
 }
-//
+
 INT_PTR CRDPViewDlg::DoModal()
 {
 	CFont* pParentFont = m_pParentWnd->GetFont();
@@ -320,3 +122,207 @@ INT_PTR CRDPViewDlg::DoModal()
 		return -1;
 	}
 }
+
+void CRDPViewDlg::Init()
+{
+	memset(m_xUi, 0, sizeof(m_xUi));
+}
+
+void CRDPViewDlg::Finalize()
+{
+	DestroyUi();
+}
+
+
+void CRDPViewDlg::InitUiRectPos()
+{
+	POINT ptBase = { 0, 0 };
+	POINT ptSize = { 0, 0 };
+	CRect rcClient;
+	GetClientRect(rcClient);
+	for (int i = UI_POS_ITEM_BEGIN; i < UI_POS_ITEM_END; i++){
+		UINT uImgId = 0;
+		UINT uLanId = 0;
+		switch (i){
+			//BTN
+		case UI_POS_BTN_CONNECT:
+			ptBase = { 0, 0 };
+			ptSize = { 50, CONTROL_HEIGHT };
+			break;
+			//CB
+		case UI_POS_CB_SLAVES:
+			ptBase = { 50, 0 };
+			ptSize = { 100, CONTROL_HEIGHT };
+			break;
+			//edit
+		case UI_POS_EDIT_CONNTIONSTRING: //for test
+			ptBase = { 150, 0 };
+			ptSize = { 1500, 30 };
+			break;
+			//view
+		case UI_POS_RDPVIEW_RDPVIEW:
+			ptBase = { 0, CONTROL_HEIGHT };
+			ptSize = { rcClient.Width(), rcClient.Height() - CONTROL_HEIGHT };
+			break;
+		}
+
+		m_xUi[i].rcUi = { ptBase.x, ptBase.y, ptBase.x + ptSize.x, ptBase.y + ptSize.y };
+	}
+}
+
+void CRDPViewDlg::InitUi()
+{
+	CString strCaption;
+	//BTN
+	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CButton();
+			strCaption = (i == UI_POS_BTN_CONNECT) ? L"連線" : L"";
+			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+		}
+	}
+	//CB
+	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CComboBox();
+			((CComboBox*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST, m_xUi[i].rcUi, this, i);
+		}
+		if (m_pvConnectionString && m_xUi[UI_POS_CB_SLAVES].pCtrl){
+			for (int i = 0; i < m_pvConnectionString->size(); i++){
+				CString str;
+				str.Format(_T("Slave: %d"), m_pvConnectionString->at(i).first + 1);
+				((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->AddString(str);
+				((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->SetItemData(i, (DWORD)&m_pvConnectionString->at(i));
+			}
+
+		}
+	}
+	//EDIT
+	for (int i = UI_POS_EDIT_BEGIN; i < UI_POS_EDIT_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CEdit();
+			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER, m_xUi[i].rcUi, this, i);
+		}
+	}
+	//RDPVIEW
+	for (int i = UI_POS_RDPVIEW_BEGIN; i < UI_POS_RDPVIEW_END; i++){
+		if (!m_xUi[i].pCtrl){
+			m_xUi[i].pCtrl = new CRDPSRAPIViewer();
+			((CRDPSRAPIViewer*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+		}
+	}
+
+}
+
+void CRDPViewDlg::DestroyUi()
+{
+	//BTN
+	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
+		if (m_xUi[i].pCtrl){
+			CButton* pBtn = ((CButton*)m_xUi[i].pCtrl);
+			pBtn->DestroyWindow();
+			delete pBtn;
+			pBtn = NULL;
+		}
+	}
+	//CB
+	for (int i = UI_POS_CB_BEGIN; i < UI_POS_CB_END; i++){
+		if (m_xUi[i].pCtrl){
+			CComboBox* pCB = ((CComboBox*)m_xUi[i].pCtrl);
+			pCB->DestroyWindow();
+			delete pCB;
+			pCB = NULL;
+		}
+	}
+	//EDIT
+	for (int i = UI_POS_EDIT_BEGIN + 1; i < UI_POS_EDIT_END; i++){
+		if (m_xUi[i].pCtrl){
+			CEdit* pEdit = ((CEdit*)m_xUi[i].pCtrl);
+			pEdit->DestroyWindow();
+			delete pEdit;
+			pEdit = NULL;
+		}
+	}
+
+	//RDPVIEW
+	for (int i = UI_POS_RDPVIEW_BEGIN + 1; i < UI_POS_RDPVIEW_END; i++){
+		if (m_xUi[i].pCtrl){
+			CRDPSRAPIViewer* pView = ((CRDPSRAPIViewer*)m_xUi[i].pCtrl);
+			pView->DestroyWindow();
+			delete pView;
+			pView = NULL;
+		}
+	}
+
+}
+
+BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
+	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
+END_MESSAGE_MAP()
+
+BOOL CRDPViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+	WORD wControlID = LOWORD(wParam);
+	WORD wMessageID = HIWORD(wParam);
+
+	if (wControlID != 0) {
+		switch (wControlID) {
+		case IDCANCEL:
+			OnCancel();
+			return TRUE;
+			break;
+		default:
+			CDialogEx::OnCommand(wParam, lParam);
+			break;
+		}
+	}
+}
+
+void CRDPViewDlg::OnCancel()
+{
+	CDialogEx::OnCancel();
+}
+
+BOOL CRDPViewDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+	CRect rcDesktop;
+	// Get a handle to the desktop window
+	HWND hDesktop = ::GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	::GetWindowRect(hDesktop, &rcDesktop);
+	MoveWindow(0, 0, rcDesktop.Width(), rcDesktop.Height());
+
+	Init();
+	InitUiRectPos();
+	InitUi();
+
+	return TRUE;
+}
+
+void CRDPViewDlg::OnConnect()
+{
+	if (!m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl || !m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl){
+		return;
+	}
+
+	int nSel = ((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->GetCurSel();
+	if (nSel == -1)
+		return;
+	pair<int, CString>* pData = (pair<int, CString>*)((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->GetItemData(nSel);
+	CString strSession = pData->second;
+	CString strEdit;
+	((CEdit*)m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl)->GetWindowText(strEdit);
+	if (strEdit.GetLength() > 0)
+		strSession = strEdit;
+	try
+	{
+		((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
+	}
+	catch (...)
+	{
+		AfxMessageBox(L"RDP error!");
+	}
+}
+
+
