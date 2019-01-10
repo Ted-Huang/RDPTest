@@ -70,12 +70,20 @@ void CRDPViewDlg::InitUi()
 			m_xUi[i].pCtrl = new CComboBox();
 			((CComboBox*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST, m_xUi[i].rcUi, this, i);
 		}
+		if (m_pvConnectionString && m_xUi[UI_POS_CB_SLAVES].pCtrl){
+			for (int i = 0; i < m_pvConnectionString->size(); i++){
+				CString str;
+				str.Format(_T("%d"), i);
+				((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->AddString(str);
+			}
+
+		}
 	}
 	//EDIT
-	for (int i = UI_POS_EDIT_BEGIN ; i < UI_POS_EDIT_END; i++){
+	for (int i = UI_POS_EDIT_BEGIN; i < UI_POS_EDIT_END; i++){
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CEdit();
-			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER , m_xUi[i].rcUi, this, i);
+			((CEdit*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER, m_xUi[i].rcUi, this, i);
 		}
 	}
 	//RDPVIEW
@@ -85,7 +93,7 @@ void CRDPViewDlg::InitUi()
 			((CRDPSRAPIViewer*)m_xUi[i].pCtrl)->Create(L"", WS_CHILD | WS_VISIBLE, m_xUi[i].rcUi, this, i);
 		}
 	}
-	
+
 }
 void CRDPViewDlg::DestroyUi()
 {
@@ -158,39 +166,45 @@ void CRDPViewDlg::OnConnect()
 		return;
 	}
 
-	CString strSession;
-	((CEdit*)m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl)->GetWindowText(strSession);
+	int nSel = ((CComboBox*)m_xUi[UI_POS_CB_SLAVES].pCtrl)->GetCurSel();
+	if (nSel == -1 || nSel >= m_pvConnectionString->size())
+		return;
 
-	((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
+	CString strSession = m_pvConnectionString->at(nSel);
+	CString strEdit;
+	((CEdit*)m_xUi[UI_POS_EDIT_CONNTIONSTRING].pCtrl)->GetWindowText(strEdit);
+	if (strEdit.GetLength() > 0)
+		strSession = strEdit;
+	try
+	{
+		((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Connect(strSession, L"groupName", L"");
+	}
+	catch (...)
+	{
+		AfxMessageBox(L"RDP error!");
+	}
 }
 
-CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/)
+CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<CString>* pvConnString)
 	: CDialogEx()
 {
 	m_pParentWnd = pParent;
 	m_strCaption = _T("");
-
-	CRect rcDesktop;
-	// Get a handle to the desktop window
-	HWND hDesktop = ::GetDesktopWindow();
-	// Get the size of screen to the variable desktop
-	::GetWindowRect(hDesktop, &rcDesktop);
 	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT;
-	m_DialogTemplate.x = 0;
-	m_DialogTemplate.y = 0;
-	m_DialogTemplate.cx = (short)rcDesktop.Width() / 2;
-	m_DialogTemplate.cy = (short)rcDesktop.Height() / 2;
+	m_DialogTemplate.dwExtendedStyle = WS_EX_DLGMODALFRAME;
+	m_pvConnectionString = pvConnString;
 }
 
 CRDPViewDlg::~CRDPViewDlg()
 {
+	Finalize();
 }
-
+//
 INT_PTR CRDPViewDlg::DoModal()
 {
 	//
 	// Get font info from mainwindow of the application
-	CFont* pParentFont =  m_pParentWnd->GetFont();
+	CFont* pParentFont = m_pParentWnd->GetFont();
 
 	if (pParentFont == NULL && AfxGetApp()->m_pActiveWnd != NULL) {
 		pParentFont = AfxGetApp()->m_pActiveWnd->GetFont();
@@ -260,8 +274,8 @@ INT_PTR CRDPViewDlg::DoModal()
 		pdest += sizeof(WORD);
 		memcpy(pdest, szFontName, nFontNameLen);		// font name
 		pdest += nFontNameLen;
-	
-		
+
+
 		//Next lines to make sure that MFC makes no ASSERTION when PREVIOUS/NEXT is pressed:)
 		if (m_lpDialogTemplate != NULL) {
 			m_lpDialogTemplate = NULL;

@@ -4,7 +4,8 @@
 #pragma once
 #import "C:\\Windows\\System32\\rdpencom.dll" no_namespace
 // CRDPSRAPIViewer 包裝函式類別
-
+#include <vector>
+using namespace std;
 class CRDPSRAPIViewer : public CWnd
 {
 protected:
@@ -127,7 +128,7 @@ class CRDPViewDlg : public CDialogEx
 {
 	// Construction
 public:
-	CRDPViewDlg(CWnd* pParent);   // standard constructor
+	CRDPViewDlg(CWnd* pParent, vector<CString>* pvConnString);   // standard constructor
 	~CRDPViewDlg();
 private:
 	void Init();
@@ -143,11 +144,12 @@ protected:
 
 public:
 	virtual INT_PTR DoModal();
-							
+
 protected:
 	CWnd *m_pParentWnd;
 	CString m_strCaption;
 	DLGTEMPLATE m_DialogTemplate;
+	vector<CString>* m_pvConnectionString;
 private:
 	typedef struct UI_ITEM_{
 		RECT rcUi;

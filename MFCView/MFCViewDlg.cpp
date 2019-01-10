@@ -69,7 +69,10 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	CRDPViewDlg dlg(this);
+	vector<CString> v;
+	v.push_back(L"1111");
+	v.push_back(L"5465465");
+	CRDPViewDlg dlg(this, &v);
 	int nn = dlg.DoModal();
 /*
 	CString strSession;

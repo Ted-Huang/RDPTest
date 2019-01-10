@@ -72,6 +72,9 @@ CRDPSession::~CRDPSession()
 CString CRDPSession::GetConnectionString()
 {
 	BSTR bsConnectionString;
+	if (!m_pInvatition)
+		return L"";
+
 	HRESULT hr = m_pInvatition->get_ConnectionString(&bsConnectionString);
 
 	if (FAILED(hr))
