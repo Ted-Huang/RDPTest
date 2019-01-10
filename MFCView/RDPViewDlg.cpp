@@ -9,7 +9,7 @@ CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pv
 {
 	memset(m_xUi, 0, sizeof(m_xUi));
 	m_pParentWnd = pParent;
-	m_strCaption = _T("");
+	m_strCaption = _T("RDP Viewer");
 	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT;
 	m_DialogTemplate.dwExtendedStyle = WS_EX_DLGMODALFRAME;
 	m_DialogTemplate.x = 0;
@@ -18,6 +18,7 @@ CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pv
 	m_DialogTemplate.cy = 0;
 	m_DialogTemplate.cdit = 0;
 	m_pvConnectionString = pvConnString;
+	m_pFont = NULL;
 }
 
 CRDPViewDlg::~CRDPViewDlg()
@@ -130,6 +131,10 @@ void CRDPViewDlg::Init()
 
 void CRDPViewDlg::Finalize()
 {
+	if (m_pFont){
+		delete m_pFont;
+		m_pFont = NULL;
+	}
 	DestroyUi();
 }
 
@@ -178,7 +183,8 @@ void CRDPViewDlg::InitUi()
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CButton();
 			strCaption = (i == UI_POS_BTN_CONNECT) ? L"³s½u" : L"";
-			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_CHILD | WS_TABSTOP | WS_VISIBLE, m_xUi[i].rcUi, this, i);
+			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_PUSHBUTTON, m_xUi[i].rcUi, this, i);
+			((CButton*)m_xUi[i].pCtrl)->SetFont(m_pFont);
 		}
 	}
 	//CB
@@ -186,6 +192,7 @@ void CRDPViewDlg::InitUi()
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CComboBox();
 			((CComboBox*)m_xUi[i].pCtrl)->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST, m_xUi[i].rcUi, this, i);
+			((CComboBox*)m_xUi[i].pCtrl)->SetFont(m_pFont);
 		}
 		if (m_pvConnectionString && m_xUi[UI_POS_CB_SLAVES].pCtrl){
 			for (int i = 0; i < m_pvConnectionString->size(); i++){
@@ -258,6 +265,7 @@ void CRDPViewDlg::DestroyUi()
 
 BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
 	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 BOOL CRDPViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
@@ -326,3 +334,24 @@ void CRDPViewDlg::OnConnect()
 }
 
 
+int CRDPViewDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	if (m_pFont == NULL) {
+		LOGFONT LogFont;
+
+		memset(&LogFont, 0x00, sizeof(LogFont));
+		_tcscpy_s(LogFont.lfFaceName, LF_FACESIZE, _T("MS Sans Serif"));
+
+		LogFont.lfHeight = 8;
+
+		m_pFont = new CFont;
+		m_pFont->CreateFontIndirect(&LogFont);
+		SetFont(m_pFont);
+	}
+
+
+	return 0;
+}

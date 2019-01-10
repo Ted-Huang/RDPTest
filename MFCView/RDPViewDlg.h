@@ -143,10 +143,12 @@ protected:
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnConnect();
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 
 protected:
 	CWnd *m_pParentWnd;
+	CFont *m_pFont;
 	CString m_strCaption;
 private:
 
