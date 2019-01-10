@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RDPViewDlg.h"
 
-#define CONTROL_HEIGHT	30
+#define CONTROL_HEIGHT	25
 
 IMPLEMENT_DYNCREATE(CRDPSRAPIViewer, CWnd)
 
@@ -138,7 +138,6 @@ void CRDPViewDlg::Finalize()
 	DestroyUi();
 }
 
-
 void CRDPViewDlg::InitUiRectPos()
 {
 	POINT ptBase = { 0, 0 };
@@ -162,7 +161,7 @@ void CRDPViewDlg::InitUiRectPos()
 			//edit
 		case UI_POS_EDIT_CONNTIONSTRING: //for test
 			ptBase = { 150, 0 };
-			ptSize = { 1500, 30 };
+			ptSize = { 1500, CONTROL_HEIGHT };
 			break;
 			//view
 		case UI_POS_RDPVIEW_RDPVIEW:
@@ -183,7 +182,7 @@ void CRDPViewDlg::InitUi()
 		if (!m_xUi[i].pCtrl){
 			m_xUi[i].pCtrl = new CButton();
 			strCaption = (i == UI_POS_BTN_CONNECT) ? L"³s½u" : L"";
-			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_PUSHBUTTON, m_xUi[i].rcUi, this, i);
+			((CButton*)m_xUi[i].pCtrl)->Create(strCaption, WS_VISIBLE | WS_CHILD | WS_TABSTOP , m_xUi[i].rcUi, this, i);
 			((CButton*)m_xUi[i].pCtrl)->SetFont(m_pFont);
 		}
 	}
