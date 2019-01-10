@@ -9,7 +9,7 @@ class CMFCViewDlg : public CDialogEx
 {
 private:
 	enum{
-		ITEM_START = 0, 
+		ITEM_START = 100, 
 		ITEM_BTNCONNECT,
 		ITEM_BTNDISCONNECT,
 		ITEM_EDSESSTION,
@@ -31,7 +31,8 @@ private:
 // 程式碼實作
 protected:
 	HICON m_hIcon;
-
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	virtual void OnCancel();
 	// 產生的訊息對應函式
 	virtual BOOL OnInitDialog();
 	afx_msg void OnConnect();

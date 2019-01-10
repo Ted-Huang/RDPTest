@@ -126,10 +126,11 @@ public:
 
 class CRDPViewDlg : public CDialogEx
 {
-	// Construction
 public:
-	CRDPViewDlg(CWnd* pParent, vector<CString>* pvConnString);   // standard constructor
+	CRDPViewDlg(CWnd* pParent, vector<pair<int, CString>>* pvConnString); 
 	~CRDPViewDlg();
+	virtual INT_PTR DoModal();
+
 private:
 	void Init();
 	void Finalize();
@@ -138,19 +139,19 @@ private:
 	void DestroyUi();
 
 protected:
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnConnect();
 	DECLARE_MESSAGE_MAP()
 
-public:
-	virtual INT_PTR DoModal();
-
 protected:
 	CWnd *m_pParentWnd;
 	CString m_strCaption;
-	DLGTEMPLATE m_DialogTemplate;
-	vector<CString>* m_pvConnectionString;
 private:
+
+	DLGTEMPLATE m_DialogTemplate;
+	vector<pair<int, CString>>* m_pvConnectionString;
 	typedef struct UI_ITEM_{
 		RECT rcUi;
 		void *pCtrl;
@@ -160,7 +161,6 @@ private:
 		//BTN
 		UI_POS_BTN_BEGIN,
 		UI_POS_BTN_CONNECT = UI_POS_BTN_BEGIN,
-		UI_POS_BTN_DISCONNECT,
 		UI_POS_BTN_END,
 
 		//CB
@@ -181,3 +181,4 @@ private:
 	};
 	UI_ITEM m_xUi[UI_POS_ITEM_END];
 };
+

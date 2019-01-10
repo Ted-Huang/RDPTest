@@ -50,9 +50,33 @@ BEGIN_MESSAGE_MAP(CMFCViewDlg, CDialogEx)
 	ON_BN_CLICKED(ITEM_BTNDISCONNECT, OnDisConnect)
 END_MESSAGE_MAP()
 
+BOOL CMFCViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+	WORD wControlID = LOWORD(wParam);
+	WORD wMessageID = HIWORD(wParam);
 
+	if (wControlID != 0) {
+		switch (wControlID) {
+		case IDOK:
+			//OnOK();
+			return TRUE;
+			break;
+		case IDCANCEL:
+			OnCancel();
+			return TRUE;
+			break;
+		default:
+			CDialogEx::OnCommand(wParam, lParam);
+			//PostMessage(WM_COMMAND, wParam, lParam);
+			break;
+		}
+	}
+}
 // CMFCViewDlg 訊息處理常式
-
+void CMFCViewDlg::OnCancel()
+{
+	CDialog::OnCancel();
+}
 BOOL CMFCViewDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -69,9 +93,9 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	vector<CString> v;
-	v.push_back(L"1111");
-	v.push_back(L"5465465");
+	vector<pair<int, CString>> v;
+	v.push_back(make_pair(1, L"1111"));
+	v.push_back(make_pair(2, L"22222"));
 	CRDPViewDlg dlg(this, &v);
 	int nn = dlg.DoModal();
 /*
