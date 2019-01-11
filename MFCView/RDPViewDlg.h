@@ -144,6 +144,7 @@ protected:
 	virtual void PostNcDestroy();
 	afx_msg void OnConnect();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 
 protected:

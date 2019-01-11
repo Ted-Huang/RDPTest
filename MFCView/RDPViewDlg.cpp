@@ -10,7 +10,7 @@ CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pv
 	memset(m_xUi, 0, sizeof(m_xUi));
 	m_pParentWnd = pParent;
 	m_strCaption = _T("RDP Viewer");
-	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT;
+	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 	m_DialogTemplate.dwExtendedStyle = WS_EX_DLGMODALFRAME;
 	m_DialogTemplate.x = 0;
 	m_DialogTemplate.y = 0;
@@ -261,6 +261,7 @@ void CRDPViewDlg::DestroyUi()
 BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
 	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
 	ON_WM_CREATE()
+	ON_WM_PAINT()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
 
@@ -356,4 +357,10 @@ int CRDPViewDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	return 0;
+}
+
+void CRDPViewDlg::OnPaint()
+{
+	CDialogEx::OnPaint();
+	((CRDPSRAPIViewer*)m_xUi[UI_POS_RDPVIEW_RDPVIEW].pCtrl)->Invalidate();
 }
