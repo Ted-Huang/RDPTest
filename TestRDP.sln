@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_TestRDP", "_TestRDP\_TestRDP.csproj", "{5C3CD142-2899-4DE3-9628-135208CEE146}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AOIRDPSession", "AOIRDPSession\AOIRDPSession.vcxproj", "{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,16 @@ Global
 		{5C3CD142-2899-4DE3-9628-135208CEE146}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5C3CD142-2899-4DE3-9628-135208CEE146}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5C3CD142-2899-4DE3-9628-135208CEE146}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Debug|Win32.Build.0 = Debug|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Release|Win32.ActiveCfg = Release|Win32
+		{A2A9CF2B-D962-4C3D-98DB-2407EE24D46A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
