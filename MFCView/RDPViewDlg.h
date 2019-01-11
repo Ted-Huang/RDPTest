@@ -2,8 +2,7 @@
 
 //電腦已經從 Typelib 精靈以加入類別方式產生 IDispatch 包裝函式類別
 #pragma once
-#import "C:\\Windows\\System32\\rdpencom.dll" no_namespace
-// CRDPSRAPIViewer 包裝函式類別
+
 #include <vector>
 using namespace std;
 class CRDPSRAPIViewer : public CWnd

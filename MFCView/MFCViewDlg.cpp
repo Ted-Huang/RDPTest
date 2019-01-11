@@ -112,12 +112,12 @@ BOOL CMFCViewDlg::OnInitDialog()
 
 void CMFCViewDlg::OnConnect()
 {
-	vector<pair<int, CString>> v;
-	v.push_back(make_pair(1, L"1111"));
-	v.push_back(make_pair(2, L"22222"));
+
+	m_v.push_back(make_pair(1, L"1111"));
+	m_v.push_back(make_pair(2, L"22222"));
 	//CRDPViewDlg dlg(this, &v);
 	//int nn = dlg.DoModal();
-	CRDPViewDlg* dlg = new CRDPViewDlg(this, &v);
+	CRDPViewDlg* dlg = new CRDPViewDlg(this, &m_v);
 	dlg->DoModal();
 /*
 	CString strSession;

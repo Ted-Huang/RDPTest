@@ -3,7 +3,8 @@
 //
 
 #pragma once
-
+#include <vector>
+using namespace std;
 // CMFCViewDlg ¹ï¸Ü¤è¶ô
 class CMFCViewDlg : public CDialogEx
 {
@@ -45,5 +46,6 @@ private:
 	CButton* m_pBtnConnect;
 	CButton* m_pBtnDisconnect;
 	CEdit* m_pEdSession;
+	vector<pair<int, CString>> m_v;
 	//CRDPSRAPIViewer* m_pViewer;
 };
