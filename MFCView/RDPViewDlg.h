@@ -142,6 +142,7 @@ protected:
 	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
+	virtual void PostNcDestroy();
 	afx_msg void OnConnect();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()

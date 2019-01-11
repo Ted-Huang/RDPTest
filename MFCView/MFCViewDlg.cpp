@@ -115,8 +115,10 @@ void CMFCViewDlg::OnConnect()
 	vector<pair<int, CString>> v;
 	v.push_back(make_pair(1, L"1111"));
 	v.push_back(make_pair(2, L"22222"));
-	CRDPViewDlg dlg(this, &v);
-	int nn = dlg.DoModal();
+	//CRDPViewDlg dlg(this, &v);
+	//int nn = dlg.DoModal();
+	CRDPViewDlg* dlg = new CRDPViewDlg(this, &v);
+	dlg->DoModal();
 /*
 	CString strSession;
 	m_pEdSession->GetWindowText(strSession);

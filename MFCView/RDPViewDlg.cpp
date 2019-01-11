@@ -105,11 +105,7 @@ INT_PTR CRDPViewDlg::DoModal()
 			m_lpDialogTemplate = NULL;
 		}
 
-		//this->MoveWindow(0, 0, 800, 700);
-		InitModalIndirect((LPDLGTEMPLATE)pBuffer, m_pParentWnd);
-		iRet = CDialog::DoModal();
-
-
+		iRet = CreateIndirect((LPDLGTEMPLATE)pBuffer, m_pParentWnd);
 
 		LocalUnlock(hLocal);
 		LocalFree(hLocal);
@@ -265,6 +261,7 @@ void CRDPViewDlg::DestroyUi()
 BEGIN_MESSAGE_MAP(CRDPViewDlg, CDialogEx)
 	ON_BN_CLICKED(UI_POS_BTN_CONNECT, OnConnect)
 	ON_WM_CREATE()
+	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
 
 BOOL CRDPViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
@@ -287,7 +284,7 @@ BOOL CRDPViewDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 
 void CRDPViewDlg::OnCancel()
 {
-	CDialogEx::OnCancel();
+	DestroyWindow();
 }
 
 BOOL CRDPViewDlg::OnInitDialog()
@@ -305,6 +302,12 @@ BOOL CRDPViewDlg::OnInitDialog()
 	InitUi();
 
 	return TRUE;
+}
+
+void CRDPViewDlg::PostNcDestroy()
+{
+	CDialogEx::PostNcDestroy();
+	delete this;
 }
 
 void CRDPViewDlg::OnConnect()
