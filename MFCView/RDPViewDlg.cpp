@@ -223,7 +223,7 @@ void CRDPViewDlg::InitUi()
 void CRDPViewDlg::DestroyUi()
 {
 	//BTN
-	for (int i = UI_POS_BTN_BEGIN + 1; i < UI_POS_BTN_END; i++){
+	for (int i = UI_POS_BTN_BEGIN; i < UI_POS_BTN_END; i++){
 		if (m_xUi[i].pCtrl){
 			CButton* pBtn = ((CButton*)m_xUi[i].pCtrl);
 			pBtn->DestroyWindow();
@@ -241,7 +241,7 @@ void CRDPViewDlg::DestroyUi()
 		}
 	}
 	//EDIT
-	for (int i = UI_POS_EDIT_BEGIN + 1; i < UI_POS_EDIT_END; i++){
+	for (int i = UI_POS_EDIT_BEGIN ; i < UI_POS_EDIT_END; i++){
 		if (m_xUi[i].pCtrl){
 			CEdit* pEdit = ((CEdit*)m_xUi[i].pCtrl);
 			pEdit->DestroyWindow();
@@ -251,7 +251,7 @@ void CRDPViewDlg::DestroyUi()
 	}
 
 	//RDPVIEW
-	for (int i = UI_POS_RDPVIEW_BEGIN + 1; i < UI_POS_RDPVIEW_END; i++){
+	for (int i = UI_POS_RDPVIEW_BEGIN; i < UI_POS_RDPVIEW_END; i++){
 		if (m_xUi[i].pCtrl){
 			CRDPSRAPIViewer* pView = ((CRDPSRAPIViewer*)m_xUi[i].pCtrl);
 			pView->DestroyWindow();

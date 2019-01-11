@@ -24,6 +24,25 @@ CMFCViewDlg::CMFCViewDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+CMFCViewDlg::~CMFCViewDlg()
+{
+	if (m_pBtnConnect){
+		m_pBtnConnect->DestroyWindow();
+		delete m_pBtnConnect;
+		m_pBtnConnect = NULL;
+	}
+	if (m_pBtnDisconnect){
+		m_pBtnDisconnect->DestroyWindow();
+		delete m_pBtnDisconnect;
+		m_pBtnDisconnect = NULL;
+	}
+	if (m_pEdSession){
+		m_pEdSession->DestroyWindow();
+		delete m_pEdSession;
+		m_pEdSession = NULL;
+	}
+}
+
 void CMFCViewDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -35,8 +54,8 @@ void CMFCViewDlg::Init()
 	GetClientRect(rcWnd);
 	m_pBtnConnect = new CButton;
 	m_pBtnConnect->Create(_T("Connect"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 120, 20), this, ITEM_BTNCONNECT);
-	m_pBtnConnect = new CButton;
-	m_pBtnConnect->Create(_T("DisConnect"), WS_CHILD | WS_VISIBLE, CRect(0, 20, 120, 40), this, ITEM_BTNDISCONNECT);
+	m_pBtnDisconnect = new CButton;
+	m_pBtnDisconnect->Create(_T("DisConnect"), WS_CHILD | WS_VISIBLE, CRect(0, 20, 120, 40), this, ITEM_BTNDISCONNECT);
 	m_pEdSession = new CEdit;
 	m_pEdSession->Create(WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(130, 0, 1700, 20), this, ITEM_EDSESSTION);
 	//m_pViewer = new CRDPSRAPIViewer;

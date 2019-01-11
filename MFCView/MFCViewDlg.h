@@ -19,7 +19,7 @@ private:
 // 建構
 public:
 	CMFCViewDlg(CWnd* pParent = NULL);	// 標準建構函式
-
+	~CMFCViewDlg();
 // 對話方塊資料
 	enum { IDD = IDD_MFCVIEW_DIALOG };
 

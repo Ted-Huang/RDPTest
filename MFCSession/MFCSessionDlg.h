@@ -25,7 +25,7 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支援
-
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 private:
 	void Init();
 // 程式碼實作

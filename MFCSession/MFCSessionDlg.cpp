@@ -50,6 +50,24 @@ void CMFCSessionDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
+BOOL CMFCSessionDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYUP || pMsg->message == WM_KEYDOWN) {
+		switch (pMsg->wParam) {
+		case VK_MENU:
+		{
+			TRACE(L"ok \n");
+			return TRUE;
+		}
+		break;
+		default:
+			return CDialogEx::PreTranslateMessage(pMsg);
+		}
+	}
+	else
+		return CDialogEx::PreTranslateMessage(pMsg);
+}
+
 BEGIN_MESSAGE_MAP(CMFCSessionDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
