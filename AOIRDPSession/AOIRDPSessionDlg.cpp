@@ -27,9 +27,22 @@ void CAOIRDPSessionDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
+void CAOIRDPSessionDlg::Init()
+{
+	SetWindowText(L"AOIRDPSessionDlg");
+
+	ShowWindow(SW_HIDE);
+}
+#define WM_RDPSESSION_MSG			(WM_APP+1105)
+enum{
+	REQUEST_CONNECTIONSTRING,
+	RESPONSE_CONNECTIONSTRING
+};
 BEGIN_MESSAGE_MAP(CAOIRDPSessionDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_MESSAGE(WM_RDPSESSION_MSG, OnRequest)
+	//ON_BN_CLICKED(123, SendConnectionString)
 END_MESSAGE_MAP()
 
 
@@ -45,7 +58,8 @@ BOOL CAOIRDPSessionDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 設定小圖示
 
 	// TODO:  在此加入額外的初始設定
-
+	Init();
+	SendConnectionString();
 	return TRUE;  // 傳回 TRUE，除非您對控制項設定焦點
 }
 
@@ -84,4 +98,32 @@ HCURSOR CAOIRDPSessionDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
+LRESULT CAOIRDPSessionDlg::OnRequest(WPARAM wp, LPARAM lp)
+{
+	switch (wp){
+	case REQUEST_CONNECTIONSTRING:
+		SendConnectionString();
+		return 1L;
+		break;
+	default:
+		return 1L;
+		break;
+	}
+}
 
+void CAOIRDPSessionDlg::SendConnectionString()
+{
+	HWND hwnd = ::FindWindow(NULL, L"AOITek_MasterWork_Slave");
+	CWnd* pWnd = CWnd::FromHandle(hwnd);
+	if (pWnd){
+		
+		CString strConnectionString = m_xRDPSession.GetConnectionString(); 
+
+		LPCTSTR lpszString = strConnectionString;
+		COPYDATASTRUCT cds;
+		cds.dwData = RESPONSE_CONNECTIONSTRING;  
+		cds.cbData = sizeof(TCHAR) * (_tcslen(lpszString) + 1);
+		cds.lpData = (PVOID)lpszString;
+		pWnd->SendMessage(WM_COPYDATA, (WPARAM)hwnd, (LPARAM)&cds);
+	}
+}

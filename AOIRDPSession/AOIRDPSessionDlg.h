@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "RDPSession.h"
 
 // CAOIRDPSessionDlg 對話方塊
 class CAOIRDPSessionDlg : public CDialogEx
@@ -18,6 +18,8 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支援
 
+private:
+	void Init();
 
 // 程式碼實作
 protected:
@@ -27,5 +29,10 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg LRESULT OnRequest(WPARAM wp, LPARAM lp);
 	DECLARE_MESSAGE_MAP()
+private:
+	void SendConnectionString();
+private:
+	CRDPSession m_xRDPSession;
 };
