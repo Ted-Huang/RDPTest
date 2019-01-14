@@ -10,7 +10,7 @@ CRDPViewDlg::CRDPViewDlg(CWnd* pParent /*=NULL*/, vector<pair<int, CString>>* pv
 	memset(m_xUi, 0, sizeof(m_xUi));
 	m_pParentWnd = pParent;
 	m_strCaption = _T("RDP Viewer");
-	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN;
+	m_DialogTemplate.style = WS_CAPTION | WS_SYSMENU | WS_VISIBLE | DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN /*ref: https://www.codeproject.com/Questions/729379/MFC-ActiveX-not-properly-redrawn*/;
 	m_DialogTemplate.dwExtendedStyle = WS_EX_DLGMODALFRAME;
 	m_DialogTemplate.x = 0;
 	m_DialogTemplate.y = 0;
